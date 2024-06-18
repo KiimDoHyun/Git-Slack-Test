@@ -14,10 +14,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Get Reviewers List
-        id: reviewers
+        with:
+      - name: Get PR reviewer information
+        id: get-reviewer-info
         uses: actions/github-script@v7
-        # with:
+        with:
+          script-path: .github/scripts/get-pr-reviewer-info.js
+          # token: ${{ secrets.GITHUB_TOKEN }}
+
+      # - name: Get Reviewers List
+      #   id: reviewers
+      #   uses: actions/github-script@v7
+      #   with:
+      #     script: 
         #   github_token: ${{ secrets.GITHUB_TOKEN }}
         #   issue_number: ${{ github.event.pull_request.number }}
         #   reviewers: ${{ steps.reviewers.outputs.reviewers }}
