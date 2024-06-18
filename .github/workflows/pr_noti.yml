@@ -17,10 +17,10 @@ jobs:
       - name: Get Reviewers List
         id: reviewers
         uses: actions/github-script@v7
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          issue_number: ${{ github.event.pull_request.number }}
-          reviewers: ${{ steps.reviewers.outputs.reviewers }}
+        # with:
+        #   github_token: ${{ secrets.GITHUB_TOKEN }}
+        #   issue_number: ${{ github.event.pull_request.number }}
+        #   reviewers: ${{ steps.reviewers.outputs.reviewers }}
 
       - name: Notify Reviewers with JS
         run: |
