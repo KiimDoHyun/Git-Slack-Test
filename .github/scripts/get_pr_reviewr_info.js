@@ -1,9 +1,9 @@
-const core = require('@actions/core');
-const github = require('@actions/github');
+// const core = require('@actions/core');
+// const github = require('@actions/github');
 
-async function getReviewerInfo() {
-    const context = github.context;
-    console.log('########## github: ', github);
+async function getReviewerInfo({github, context, core}) {
+    // const context = github.context;
+    console.log('########## context: ', context);
     const pullRequestNumber = context.payload.pull_request.number;
     const owner = context.repo.owner;
     const repo = context.repo.repo;
