@@ -6,7 +6,7 @@ on:
 
 jobs:
   notice:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - name: action-slack-test
         uses: 8398a7/action-slack@v3
