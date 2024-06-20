@@ -3,6 +3,7 @@
 
 async function getReviewerInfo({github, context, core}) {
     // const context = github.context;
+    console.log('########## github: ', github);
     console.log('########## context: ', context);
     const pullRequestNumber = context.payload.pull_request.number;
     const owner = context.repo.owner;
@@ -33,3 +34,4 @@ async function getReviewerInfo({github, context, core}) {
   }
   
   getReviewerInfo();
+  
