@@ -2,8 +2,7 @@ name: slack_notice
 
 on: 
   pull_request:
-    types:
-      - review_requested
+    types: [ opened ]
 
 jobs:
   notice:
