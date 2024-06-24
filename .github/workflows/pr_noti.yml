@@ -4,7 +4,7 @@ name: slack_notice
 #     push
 on: 
   pull_request:
-    types: [ opened, closed, reopened, review_requested, review_request_removed, assigned]
+    types: [opened,synchronize,closed,reopened,edited,review_requested,review_request_removed,labeled,unlabeled,assigned,unassigned,merged,pull_request_review,status_updated,head_ref_deleted,marketplace_purchase]
 
 jobs:
   build:

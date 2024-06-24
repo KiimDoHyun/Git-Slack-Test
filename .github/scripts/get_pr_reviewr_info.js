@@ -15,6 +15,8 @@ function getReviewerInfo() {
     console.log('########## pullRequest: ', JSON.stringify(pullRequest));
     // console.log('github.context: ', JSON.stringify(github.context))
 
+    console.log('트리거된 액션 종류 1', context.payload.action);
+    console.log('트리거된 액션 종류 2', context.payload.action);
     // // 콘솔에 PR 정보 출력
     console.log(`PR 번호: ${prNumber}`);
     console.log(`PR 제목: ${prTitle}`);
