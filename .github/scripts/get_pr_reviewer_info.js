@@ -19,7 +19,7 @@ function getReviewerInfo() {
 // `https://slack.com/api/chat.postMessage?channel=${myChannel}&text=${Hello world}`
     reviewers.forEach((reviewer) => {
       console.log('reviewer', reviewer)
-      fetch(`https://slack.com/api/chat.postMessage?channel=${myChannel}&text=${'Hello world'}`, {
+      fetch(`https://slack.com/api/chat.postMessage?channel=${myChannel}&text=${'Hello world'}&pretty=1`, {
         method: "POST",
             headers: {
                 'Content-Type': 'application/json; charset=utf-8',
