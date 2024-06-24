@@ -25,7 +25,9 @@ function getReviewerInfo() {
                 'Content-Type': 'application/json; charset=utf-8',
                 'Authorization': `Bearer ${accessToken}` // 헤더에 Bearer 토큰 추가
               }
-      }).then((res) => console.log('res', res.json())).catch((e) => {
+      }).then(async(res) => {
+        const response = await res.json()
+        console.log('res', response)}).catch((e) => {
         console.log('실패', e)
       })
     })
