@@ -1,5 +1,6 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
+const path = require('path');
 
 function getReviewerInfo() {
   try {
@@ -10,7 +11,7 @@ function getReviewerInfo() {
     // const prTitle = pullRequest.title;
     // const prBody = pullRequest.body;
     // const prUrl = pullRequest.url;
-    const userInfoFilePath= path.join(__dirname,'.github/json/slackUserInfo.json');
+    const userInfoFilePath= path.join(__dirname,'../json/slackUserInfo.json');
     fs.writeFileSync(userInfoFilePath, JSON.stringify(github));
     // console.log('github: ', JSON.stringify(github))
     // console.log('github.context: ', JSON.stringify(github.context))
