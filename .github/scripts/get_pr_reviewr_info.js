@@ -11,6 +11,8 @@ function getReviewerInfo() {
     const prBody = pullRequest.body;
     const prUrl = pullRequest.url;
 
+    const reviewers = context.payload.pull_request.reviewers;
+
     console.log('github: ', JSON.stringify(github))
     console.log('########## pullRequest: ', JSON.stringify(pullRequest));
     // console.log('github.context: ', JSON.stringify(github.context))
@@ -22,6 +24,7 @@ function getReviewerInfo() {
     console.log(`PR 제목: ${prTitle}`);
     console.log(`PR 내용: ${prBody}`);
     console.log(`PR URL: ${prUrl}`);
+    console.log('리뷰어 정보', JSON.stringify(reviewers));
   } catch (error) {
     core.setFailed(error.message);
   }
