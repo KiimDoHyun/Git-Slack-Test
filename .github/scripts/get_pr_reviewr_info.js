@@ -10,6 +10,8 @@ function getReviewerInfo() {
     const prTitle = pullRequest.title;
     const prBody = pullRequest.body;
     const prUrl = pullRequest.url;
+    console.log('github: ', JSON.stringify(github))
+    console.log('github.context: ', JSON.stringify(github.context))
 
     // 콘솔에 PR 정보 출력
     console.log(`PR 번호: ${prNumber}`);
