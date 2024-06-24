@@ -30,6 +30,11 @@ function getReviewerInfo() {
             headers: {
                 'Content-Type': 'application/json; charset=utf-8',
                 Authorization: `Bearer ${accessToken}` // 헤더에 Bearer 토큰 추가
+              },
+              body: {
+                channel: messageId,
+                text: 'Hello world',
+                pretty: 1,
               }
       }).then(async(res) => {
         const response = await res.json()
