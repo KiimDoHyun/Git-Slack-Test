@@ -1,5 +1,6 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
+require('dotenv').config();
 
 function getReviewerInfo() {
   try {
