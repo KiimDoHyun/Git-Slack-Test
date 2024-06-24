@@ -13,7 +13,7 @@ jobs:
 
       - name: Run JavaScript script
         run: | 
-          node .github/scripts/get_pr_reviewer_info.js
+          node .github/scripts/get_pr_reviewr_info.js
   
 
 
