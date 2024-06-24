@@ -25,7 +25,7 @@ function getReviewerInfo() {
       const messageId = slackUserInfo[reviewer.login || 'areumsheep'];
 
       console.log('#### messageId: ', messageId);
-      fetch(`https://slack.com/api/chat.postMessage?channel=${messageId}&text=Hello world&pretty=1`, {
+      fetch(`https://slack.com/api/chat.postMessage`, {
         method: "POST",
             headers: {
                 'Content-Type': 'application/json; charset=utf-8',
@@ -33,8 +33,7 @@ function getReviewerInfo() {
               },
               body: JSON.stringify({
                 channel: messageId,
-                text: 'Hello world',
-                pretty: 1,
+                text: 'Hello world'
               })
       }).then(async(res) => {
         const response = await res.json()
