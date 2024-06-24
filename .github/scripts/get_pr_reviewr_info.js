@@ -1,10 +1,26 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
 
-async function getReviewerInfo() {
-    console.log('########## core: ', core);
-    console.log('########## github: ', github);
-    return;
+function getReviewerInfo() {
+  try {
+    // PR 정보 가져오기
+    const context = github.context;
+    const pullRequest = context.payload.pull_request;
+    const prNumber = pullRequest.number;
+    const prTitle = pullRequest.title;
+    const prBody = pullRequest.body;
+    const prUrl = pullRequest.url;
+
+    // 콘솔에 PR 정보 출력
+    console.log(`PR 번호: ${prNumber}`);
+    console.log(`PR 제목: ${prTitle}`);
+    console.log(`PR 내용: ${prBody}`);
+    console.log(`PR URL: ${prUrl}`);
+  } catch (error) {
+    core.setFailed(error.message);
+  }
+
+  return;
     // const context = github.context;
     console.log('########## github: ', github);
     console.log('########## context: ', context);
