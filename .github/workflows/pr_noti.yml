@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Run JavaScript script
-        run: node .github/scripts/get-pr-reviewer-info.js
+        run: node .github/scripts/get_pr_reviewer_info.js
   
 
 
