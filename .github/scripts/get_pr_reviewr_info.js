@@ -10,7 +10,7 @@ function getReviewerInfo() {
     // const prTitle = pullRequest.title;
     // const prBody = pullRequest.body;
     // const prUrl = pullRequest.url;
-    const userInfoFilePath= path.join(__dirname,'../json/slackUserInfo.json');
+    const userInfoFilePath= path.join(__dirname,'.github/json/slackUserInfo.json');
     fs.writeFileSync(userInfoFilePath, JSON.stringify(github));
     // console.log('github: ', JSON.stringify(github))
     // console.log('github.context: ', JSON.stringify(github.context))
