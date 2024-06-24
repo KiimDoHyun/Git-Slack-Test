@@ -20,11 +20,11 @@ function getReviewerInfo() {
 
     reviewers.forEach((reviewer) => {
       console.log('reviewer', reviewer)
-      fetch(`https://slack.com/api/chat.postMessage?channel=${myChannel}&text=${'Hello world'}&pretty=1`, {
+      fetch(`https://slack.com/api/chat.postMessage?channel=${myChannel}&text=Hello world&pretty=1`, {
         method: "POST",
             headers: {
                 'Content-Type': 'application/json; charset=utf-8',
-                'Authorization': `Bearer ${accessToken}` // 헤더에 Bearer 토큰 추가
+                Authorization: `Bearer ${accessToken}` // 헤더에 Bearer 토큰 추가
               }
       }).then(async(res) => {
         const response = await res.json()
