@@ -23,6 +23,8 @@ function getReviewerInfo() {
 
     reviewers.forEach((reviewer) => {
       const messageId = slackUserInfo[reviewer.login || 'areumsheep'];
+
+      console.log('#### messageId: ', messageId);
       fetch(`https://slack.com/api/chat.postMessage?channel=${messageId}&text=Hello world&pretty=1`, {
         method: "POST",
             headers: {
