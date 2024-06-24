@@ -11,6 +11,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Cache node modules
+        uses: actions/cache@v3
+        id: cache
+        with:
+          path: node_modules
+          key: npm-packages-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Install Dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm ci
+
       - name: Run JavaScript script
         run: | 
           node .github/scripts/get_pr_reviewr_info.js
