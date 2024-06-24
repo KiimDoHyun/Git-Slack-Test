@@ -28,6 +28,8 @@ function getReviewerInfo() {
                 channel: myChannel,
                 text: "Hello world"
               }
+      }).then((res) => console.log('res', res)).catch((e) => {
+        console.log('실패', e)
       })
     })
     // pr 리뷰어로 선정되었을 때 메세지 전달
