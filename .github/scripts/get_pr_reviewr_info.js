@@ -13,18 +13,30 @@ function getReviewerInfo() {
 
     const reviewers = context.payload.pull_request.reviewers;
 
-    console.log('github: ', JSON.stringify(github))
-    console.log('########## pullRequest: ', JSON.stringify(pullRequest));
-    // console.log('github.context: ', JSON.stringify(github.context))
 
-    console.log('트리거된 액션 종류 1', context.payload.action);
-    console.log('트리거된 액션 종류 2', context.payload.action);
-    // // 콘솔에 PR 정보 출력
-    console.log(`PR 번호: ${prNumber}`);
-    console.log(`PR 제목: ${prTitle}`);
-    console.log(`PR 내용: ${prBody}`);
-    console.log(`PR URL: ${prUrl}`);
-    console.log('리뷰어 정보', JSON.stringify(reviewers));
+    // 무조건 배열로 들어있음
+    // github.context.payload.pull_request.requested_reviewers;
+
+    // 반복문으로 날려야 한다.
+    // 실패가 있으면 에러 메세지를 나한테 
+    /*
+    const reviweres = getReviewers();
+
+    for
+    */
+    
+    // console.log('github: ', JSON.stringify(github))
+    // console.log('########## pullRequest: ', JSON.stringify(pullRequest));
+    // // console.log('github.context: ', JSON.stringify(github.context))
+
+    // console.log('트리거된 액션 종류 1', context.payload.action);
+    // console.log('트리거된 액션 종류 2', context.payload.action);
+    // // // 콘솔에 PR 정보 출력
+    // console.log(`PR 번호: ${prNumber}`);
+    // console.log(`PR 제목: ${prTitle}`);
+    // console.log(`PR 내용: ${prBody}`);
+    // console.log(`PR URL: ${prUrl}`);
+    console.log('리뷰어 정보', JSON.stringify(github.context.payload.pull_request.requested_reviewers));
   } catch (error) {
     core.setFailed(error.message);
   }
