@@ -2,7 +2,7 @@ const core = require('@actions/core');
 const github = require('@actions/github');
 require('dotenv').config();
 
-import slackUserInfo from '../json/slackUserInfo.json'
+const slackUserInfo = require('../json/slackUserInfo.json');
 
 function getReviewerInfo() {
   try {
