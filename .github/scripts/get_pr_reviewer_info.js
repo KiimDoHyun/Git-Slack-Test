@@ -2,6 +2,8 @@ const core = require('@actions/core');
 const github = require('@actions/github');
 require('dotenv').config();
 
+import slackUserInfo from '../json/slackUserInfo.json'
+
 function getReviewerInfo() {
   try {
     // PR 정보 가져오기
@@ -20,8 +22,8 @@ function getReviewerInfo() {
     console.log('########## myChannel: ', myChannel);
 
     reviewers.forEach((reviewer) => {
-      console.log('reviewer', reviewer)
-      fetch(`https://slack.com/api/chat.postMessage?channel=${myChannel}&text=Hello world&pretty=1`, {
+      const messageId = slackUserInfo[reviewer.login || 'areumsheep'];
+      fetch(`https://slack.com/api/chat.postMessage?channel=${messageId}&text=Hello world&pretty=1`, {
         method: "POST",
             headers: {
                 'Content-Type': 'application/json; charset=utf-8',
