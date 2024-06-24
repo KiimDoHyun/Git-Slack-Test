@@ -1,7 +1,7 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
-const path = require('path');
-const fs = require('fs');
+// const path = require('path');
+// const fs = require('fs');
 
 function getReviewerInfo() {
   try {
@@ -12,9 +12,9 @@ function getReviewerInfo() {
     // const prTitle = pullRequest.title;
     // const prBody = pullRequest.body;
     // const prUrl = pullRequest.url;
-    const userInfoFilePath= path.join(__dirname,'../json/slackUserInfo.json');
-    fs.writeFileSync(userInfoFilePath, JSON.stringify(github));
-    // console.log('github: ', JSON.stringify(github))
+    // const userInfoFilePath= path.join(__dirname,'../json/slackUserInfo.json');
+    // fs.writeFileSync(userInfoFilePath, JSON.stringify(github));
+    console.log('github: ', JSON.stringify(github))
     // console.log('github.context: ', JSON.stringify(github.context))
 
     // // 콘솔에 PR 정보 출력
