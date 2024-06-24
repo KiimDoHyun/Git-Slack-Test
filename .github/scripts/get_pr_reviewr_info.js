@@ -1,6 +1,7 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
 const path = require('path');
+const fs = require('fs');
 
 function getReviewerInfo() {
   try {
