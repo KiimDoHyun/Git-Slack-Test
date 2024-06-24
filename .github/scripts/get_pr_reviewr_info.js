@@ -1,7 +1,10 @@
-// const core = require('@actions/core');
-// const github = require('@actions/github');
+const core = require('@actions/core');
+const github = require('@actions/github');
 
-async function getReviewerInfo({github, context, core}) {
+async function getReviewerInfo() {
+    console.log('########## core: ', core);
+    console.log('########## github: ', github);
+    return;
     // const context = github.context;
     console.log('########## github: ', github);
     console.log('########## context: ', context);

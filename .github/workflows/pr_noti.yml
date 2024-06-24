@@ -5,19 +5,14 @@ on:
     types: [ opened, closed, reopened, review_requested, review_request_removed, assigned]
 
 jobs:
-  notice:
+  build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: action-slack-test
-        uses: 8398a7/action-slack@v3
-        with:
-          status: ${{ job.status }}
-          author_name: Github Action Test # default: 8398a7@action-slack
-          fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
-          text: '추가된 텍스트'
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        if: always() 
+      - uses: actions/checkout@v4
+
+      - name: Run JavaScript script
+        run: node .github/scripts/get-pr-reviewer-info.js
   
 
 
