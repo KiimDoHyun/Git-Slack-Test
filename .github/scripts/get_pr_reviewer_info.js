@@ -15,18 +15,15 @@ function getReviewerInfo() {
     
     const accessToken = process.env.SLACK_API_TOKEN; // Bearer 토큰
     const myChannel = process.env.GIT_DOH_CHANNELID;
-
+    //https://slack.com/api/chat.postMessage?channel=D078A6G7405&text=%ED%85%8C%EC%8A%BD%ED%85%8C%EC%8A%BD&pretty=1
+// `https://slack.com/api/chat.postMessage?channel=${myChannel}&text=${Hello world}`
     reviewers.forEach((reviewer) => {
       console.log('reviewer', reviewer)
-      fetch('https://slack.com/api/chat.postMessage', {
+      fetch(`https://slack.com/api/chat.postMessage?channel=${myChannel}&text=${'Hello world'}`, {
         method: "POST",
             headers: {
                 'Content-Type': 'application/json; charset=utf-8',
                 'Authorization': `Bearer ${accessToken}` // 헤더에 Bearer 토큰 추가
-              },
-              body: {
-                channel: myChannel,
-                text: "Hello world"
               }
       }).then((res) => console.log('res', res)).catch((e) => {
         console.log('실패', e)
