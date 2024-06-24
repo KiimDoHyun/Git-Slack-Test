@@ -11,7 +11,35 @@ function getReviewerInfo() {
     const prBody = pullRequest.body;
     const prUrl = pullRequest.url;
 
-    const reviewers = context.payload.pull_request.reviewers;
+    const reviewers = github.context.payload.pull_request.requested_reviewers || [];
+    
+    const accessToken = process.env.SLACK_API_TOKEN; // Bearer 토큰
+    const myChannel = process.env.GIT_DOH_CHANNELID;
+
+    reviewers.forEach((reviewer) => {
+      console.log('reviewer', reviewer)
+      fetch('https://slack.com/api/chat.postMessage', {
+        method: "POST",
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8',
+                'Authorization': `Bearer ${accessToken}` // 헤더에 Bearer 토큰 추가
+              },
+              body: {
+                channel: myChannel,
+                text: "Hello world"
+              }
+      })
+    })
+    // pr 리뷰어로 선정되었을 때 메세지 전달
+    // D078A6G7405 -> 내꺼 개인 채널 아이디임
+    // [Notice] 리뷰어로 등록되었습니다.
+    // - 제목:
+    // - 내용: 
+    // - 작성자: 
+    // - 라벨:
+    // - pr 주소: 
+
+
 
 
     // 무조건 배열로 들어있음
