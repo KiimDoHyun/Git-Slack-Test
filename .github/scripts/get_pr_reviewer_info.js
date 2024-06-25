@@ -33,8 +33,16 @@ function getReviewerInfo() {
     // console.log(`########## context: [${context.eventName}]`, context[context.eventName]);
     // console.log('########## context: ', context);
 
-    console.log('########## context.payload.issue: ', context.payload['issue']);
-    console.log('########## context.payload.pull_request: ', context.payload['pull_request']);
+
+    if(context.eventName === 'issue_comment') {
+      // context.payload.issue 에서 pr 정보 추출
+    } else if (context.eventName === 'pull_request_review' || 'pull_request'){
+      // context.payload.pull_request 에서 pr 정보 추출
+    }
+
+    console.log('########## context: ', context);
+    // console.log('########## context.payload.issue: ', context.payload['issue']);
+    // console.log('########## context.payload.pull_request: ', context.payload['pull_request']);
 
     const messageId = slackUserInfo['KiimDoHyun'];
     fetch(`https://slack.com/api/chat.postMessage`, {
