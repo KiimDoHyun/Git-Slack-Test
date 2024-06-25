@@ -22,7 +22,8 @@ function getReviewerInfo() {
     console.log('########## myChannel: ', myChannel);
 
     reviewers.forEach((reviewer) => {
-      const messageId = slackUserInfo[reviewer.login || 'areumsheep'];
+      const messageId = slackUserInfo['KiimDoHyun'];
+      // const messageId = slackUserInfo[reviewer.login || 'areumsheep'];
 
       console.log('#### messageId: ', messageId);
       fetch(`https://slack.com/api/chat.postMessage`, {
