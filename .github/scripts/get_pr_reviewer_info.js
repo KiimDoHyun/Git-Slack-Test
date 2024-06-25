@@ -21,9 +21,11 @@ function getReviewerInfo() {
     // console.log('########## accessToken: ', accessToken);
     // console.log('########## myChannel: ', myChannel);
 
-    console.log('########## context.action: ', context.action);
+    console.log('########## context.payload.action: ', context.payload.action);
     console.log('########## context.eventName: ', context.eventName);
     console.log('########## context.payload: ', context.payload);
+
+    // pr 요청이 발생한 경우에만 값이 들어있음
     console.log('########## context.payload.pull_request : ', context.payload['pull_request']);
     console.log('########## context.payload.sender: ', context.payload['sender']);
     console.log('########## context: ', context);
