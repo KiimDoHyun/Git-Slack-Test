@@ -23,7 +23,7 @@ function getReviewerInfo() {
 
     // console.log('########## context.action: ', context.action);
     // console.log('########## context.eventName: ', context.eventName);
-    console.log('########## context.payload: ', context.payload);
+    // console.log('########## context.payload: ', context.payload);
     console.log('########## context: ', context);
 
     const messageId = slackUserInfo['KiimDoHyun'];
