@@ -43,8 +43,8 @@ function getReviewerInfo() {
               text: 
                 `트리거된 액션 정보\n` +
                 `${context.eventName}\n` +
-                // `${context.payload.action}\n` 
-                `--------------------------------------`
+                `${context.payload.action}\n`  +
+                `--------------------------------------` +
                 `이슈 주소\n` +
                 `${context.payload.issue.html_url}`
             })
