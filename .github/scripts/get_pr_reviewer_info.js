@@ -14,16 +14,16 @@ function getReviewerInfo() {
     const prBody = pullRequest.body;
     const prUrl = pullRequest.url;
 
-    const reviewers = github.context.payload.pull_request.requested_reviewers || [];
+    // const reviewers = github.context.payload.pull_request.requested_reviewers || [];
     
     const accessToken = process.env.SLACK_API_TOKEN; // Bearer 토큰
     // const myChannel = process.env.GIT_DOH_CHANNELID;
     // console.log('########## accessToken: ', accessToken);
     // console.log('########## myChannel: ', myChannel);
 
-    // console.log('########## context.action: ', context.action);
-    // console.log('########## context.eventName: ', context.eventName);
-    // console.log('########## context.payload: ', context.payload);
+    console.log('########## context.action: ', context.action);
+    console.log('########## context.eventName: ', context.eventName);
+    console.log('########## context.payload: ', context.payload);
     console.log('########## context: ', context);
 
     const messageId = slackUserInfo['KiimDoHyun'];
