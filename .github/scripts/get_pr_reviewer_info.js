@@ -17,31 +17,54 @@ function getReviewerInfo() {
     const reviewers = github.context.payload.pull_request.requested_reviewers || [];
     
     const accessToken = process.env.SLACK_API_TOKEN; // Bearer 토큰
-    const myChannel = process.env.GIT_DOH_CHANNELID;
-    console.log('########## accessToken: ', accessToken);
-    console.log('########## myChannel: ', myChannel);
+    // const myChannel = process.env.GIT_DOH_CHANNELID;
+    // console.log('########## accessToken: ', accessToken);
+    // console.log('########## myChannel: ', myChannel);
 
-    reviewers.forEach((reviewer) => {
-      const messageId = slackUserInfo['KiimDoHyun'];
-      // const messageId = slackUserInfo[reviewer.login || 'areumsheep'];
+    console.log('########## context.action: ', context.action);
+    console.log('########## context.eventName: ', context.eventName);
+    console.log('########## context.payload.sender: ', context.payload.sender);
+    console.log('########## context: ', context);
 
-      console.log('#### messageId: ', messageId);
-      fetch(`https://slack.com/api/chat.postMessage`, {
-        method: "POST",
-            headers: {
-                'Content-Type': 'application/json; charset=utf-8',
-                Authorization: `Bearer ${accessToken}` // 헤더에 Bearer 토큰 추가
-              },
-              body: JSON.stringify({
-                channel: messageId,
-                text: `트리거된 액션 정보:${context.payload.action}`
-              })
-      }).then(async(res) => {
-        const response = await res.json()
-        console.log('res', response)}).catch((e) => {
-        console.log('실패', e)
-      })
+    const messageId = slackUserInfo['KiimDoHyun'];
+    fetch(`https://slack.com/api/chat.postMessage`, {
+      method: "POST",
+          headers: {
+              'Content-Type': 'application/json; charset=utf-8',
+              Authorization: `Bearer ${accessToken}` // 헤더에 Bearer 토큰 추가
+            },
+            body: JSON.stringify({
+              channel: messageId,
+              text: `트리거된 액션 정보:${context.payload.action}`
+            })
+    }).then(async(res) => {
+      const response = await res.json()
+      console.log('res', response)}).catch((e) => {
+      console.log('실패', e)
     })
+
+    // reviewers.forEach((reviewer) => {
+    //   const messageId = slackUserInfo['KiimDoHyun'];
+    //   // const messageId = slackUserInfo[reviewer.login || 'areumsheep'];
+
+    //   console.log('#### messageId: ', messageId);
+    //   fetch(`https://slack.com/api/chat.postMessage`, {
+    //     method: "POST",
+    //         headers: {
+    //             'Content-Type': 'application/json; charset=utf-8',
+    //             Authorization: `Bearer ${accessToken}` // 헤더에 Bearer 토큰 추가
+    //           },
+    //           body: JSON.stringify({
+    //             channel: messageId,
+    //             text: `트리거된 액션 정보:${context.payload.action}`
+    //           })
+    //   }).then(async(res) => {
+    //     const response = await res.json()
+    //     console.log('res', response)}).catch((e) => {
+    //     console.log('실패', e)
+    //   })
+    // })
+
     // pr 리뷰어로 선정되었을 때 메세지 전달
     // D078A6G7405 -> 내꺼 개인 채널 아이디임
     // [Notice] 리뷰어로 등록되었습니다.
