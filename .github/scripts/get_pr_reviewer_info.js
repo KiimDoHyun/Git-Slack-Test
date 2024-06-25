@@ -21,17 +21,25 @@ function getReviewerInfo() {
     // console.log('########## accessToken: ', accessToken);
     // console.log('########## myChannel: ', myChannel);
 
-    console.log('########## context.payload.action: ', context.payload.action);
-    console.log('########## context.eventName: ', context.eventName);
-    console.log('########## context.payload: ', context.payload);
+    // console.log('########## context.payload.action: ', context.payload.action);
+    // console.log('########## context.eventName: ', context.eventName);
+    // console.log('########## context.payload: ', context.payload);
 
     // pr 요청이 발생한 경우에만 값이 들어있음
-    console.log('########## context.payload.pull_request : ', context.payload['pull_request']);
-    console.log('########## context.payload.sender: ', context.payload['sender']);
-    console.log('########## context.payload: ', context.payload);
-    console.log('########## context.issue: ', context['issue']);
-    console.log(`########## context: [${context.eventName}]`, context[context.eventName]);
-    console.log('########## context: ', context);
+    // console.log('########## context.payload.pull_request : ', context.payload['pull_request']);
+    // console.log('########## context.payload.sender: ', context.payload['sender']);
+    // console.log('########## context.payload: ', context.payload);
+    // console.log('########## context.issue: ', context['issue']);
+    // console.log(`########## context: [${context.eventName}]`, context[context.eventName]);
+    // console.log('########## context: ', context);
+
+    console.log('########## context.issue.assignee: ', context.issue.assignee);
+    console.log('########## context.issue.assignees: ', context.issue.assignees);
+    console.log('########## context.issue.labels: ', context.issue.labels);
+    console.log('########## context.issue.pull_request: ', context.issue.pull_request);
+    console.log('########## context.issue.reactions: ', context.issue.reactions);
+    console.log('########## context.issue.user: ', context.issue.user);
+    
     
 
     const messageId = slackUserInfo['KiimDoHyun'];
@@ -48,6 +56,15 @@ function getReviewerInfo() {
                 `${context.eventName}\n` +
                 `${context.payload.action}\n`  +
                 `--------------------------------------\n`
+                `보낸사람 (발생시킨 사람)`
+                `${context.payload.sender.login}`
+                `--------------------------------------\n`
+                `PR 제목`
+                `${context.issue.title}`
+                `PR 주인`
+                `${context.issue.}`
+                `PR 라벨`
+                `${context.payload.sender.login}`
                 // `이슈 주소\n` +
                 // 항상 존재하는건 아님
                 // `${context.payload.issue.html_url}`
