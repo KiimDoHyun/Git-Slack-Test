@@ -95,7 +95,7 @@ function getReviewerInfo() {
                 `${prTitle}\n` +
                 `--------------------------------------\n`
                 `PR 알림 내용??\n` +
-                `${body}\n` +
+                `${body}\n`
                 // `PR 주인` +
                 // `${context.issue.}`
                 // `PR 라벨` +
