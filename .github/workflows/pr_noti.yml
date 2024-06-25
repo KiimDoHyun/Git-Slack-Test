@@ -4,8 +4,9 @@ name: slack_notice
 #     push
 on: 
   pull_request:
-    types: [opened,synchronize,closed,reopened,edited,review_requested,review_request_removed,labeled,unlabeled,assigned,unassigned,merged,pull_request_review,status_updated,head_ref_deleted,marketplace_purchase]
-
+    types: [review_requested]
+  pull_request_review:
+    types: [edited, dismissed]
 jobs:
   build:
     runs-on: ubuntu-latest
