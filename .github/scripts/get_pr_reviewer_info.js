@@ -34,10 +34,39 @@ function getReviewerInfo() {
     // console.log('########## context: ', context);
 
 
+    let prTitle = '';
+    let type = '';
+    let body = '';
+    // let 
     if(context.eventName === 'issue_comment') {
+      type = '댓글'
+      if(context.payload.action === 'created') {
+        type += '추가'
+      } else if (context.payload.action === 'created') {
+        type += '수정'
+      } 
+      prTitle = context.payload.issue.title;
+      body = context.payload.comment.body;
       // context.payload.issue 에서 pr 정보 추출
-    } else if (context.eventName === 'pull_request_review' || 'pull_request'){
+    } else if (context.eventName === 'pull_request'){
+      type = '리뷰어'
+      if(context.payload.action === 'review_requested') {
+        type += '할당'
+      } 
       // context.payload.pull_request 에서 pr 정보 추출
+      prTitle = context.payload.pull_request.title;
+    } else if (context.eventName === 'pull_request_review'){
+      console.log('context.payload.review.user', context.payload.review.user)
+      type = '코드리뷰'
+      if(context.payload.action === 'submitted') {
+        type += '추가'
+        body = context.payload.review.body
+      } else if (context.payload.action === 'created') {
+        type += '수정'
+        body = context.payload.review.body
+      } 
+      // context.payload.pull_request 에서 pr 정보 추출
+      prTitle = context.payload.pull_request.title;
     }
 
     console.log('########## context: ', context);
@@ -55,14 +84,18 @@ function getReviewerInfo() {
               channel: messageId,
               text: 
                 `트리거된 액션 정보\n` +
+                `${type}\n` +
                 `${context.eventName}\n` +
                 `${context.payload.action}\n`  +
                 `--------------------------------------\n` +
-                `보낸사람 (발생시킨 사람)` +
-                `${context.actor}` +
+                `보낸사람 (발생시킨 사람)\n` +
+                `${context.actor}\n` +
                 `--------------------------------------\n`
-                // `PR 제목` +
-                // `${context.issue.title}` +
+                `PR 제목\n` +
+                `${prTitle}\n` +
+                `--------------------------------------\n`
+                `PR 알림 내용??\n` +
+                `${body}\n` +
                 // `PR 주인` +
                 // `${context.issue.}`
                 // `PR 라벨` +
