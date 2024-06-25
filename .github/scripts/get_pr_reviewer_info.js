@@ -8,11 +8,11 @@ function getReviewerInfo() {
   try {
     // PR 정보 가져오기
     const context = github.context;
-    const pullRequest = context.payload.pull_request;
-    const prNumber = pullRequest.number;
-    const prTitle = pullRequest.title;
-    const prBody = pullRequest.body;
-    const prUrl = pullRequest.url;
+    // const pullRequest = context.payload.pull_request;
+    // const prNumber = pullRequest.number;
+    // const prTitle = pullRequest.title;
+    // const prBody = pullRequest.body;
+    // const prUrl = pullRequest.url;
 
     // const reviewers = github.context.payload.pull_request.requested_reviewers || [];
     
