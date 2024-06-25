@@ -30,6 +30,7 @@ function getReviewerInfo() {
     console.log('########## context.payload.sender: ', context.payload['sender']);
     console.log('########## context.payload: ', context.payload);
     console.log('########## context.issue: ', context['issue']);
+    console.log(`########## context: [${context.eventName}]`, context[context.eventName]);
     console.log('########## context: ', context);
     
 
