@@ -24,7 +24,10 @@ function getReviewerInfo() {
     console.log('########## context.action: ', context.action);
     console.log('########## context.eventName: ', context.eventName);
     console.log('########## context.payload: ', context.payload);
-    console.log('########## context: ', context);
+    console.log('########## context.payload.pull_request : ', context.payload['pull_request']);
+    console.log('########## context.payload.sender: ', context.payload['sender']);
+    // console.log('########## context: ', context);
+    
 
     const messageId = slackUserInfo['KiimDoHyun'];
     fetch(`https://slack.com/api/chat.postMessage`, {
@@ -35,7 +38,13 @@ function getReviewerInfo() {
             },
             body: JSON.stringify({
               channel: messageId,
-              text: `트리거된 액션 정보:${context.payload.action}`
+              text: 
+                `트리거된 액션 정보\n` +
+                `${context.eventName}\n` +
+                `${context.payload.action}\n` 
+                `--------------------------------------`
+                `이슈 주소\n` +
+                `${context.payload.issue.html_url}`
             })
     }).then(async(res) => {
       const response = await res.json()
@@ -137,4 +146,7 @@ function getReviewerInfo() {
   }
   
   getReviewerInfo();
+  
+
+
   
