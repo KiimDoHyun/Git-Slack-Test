@@ -42,7 +42,7 @@ function getReviewerInfo() {
       type = '댓글'
       if(context.payload.action === 'created') {
         type += '추가'
-      } else if (context.payload.action === 'created') {
+      } else if (context.payload.action === 'edited') {
         type += '수정'
       } 
       prTitle = context.payload.issue.title;
