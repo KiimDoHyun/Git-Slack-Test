@@ -28,6 +28,8 @@ function getReviewerInfo() {
     // pr 요청이 발생한 경우에만 값이 들어있음
     console.log('########## context.payload.pull_request : ', context.payload['pull_request']);
     console.log('########## context.payload.sender: ', context.payload['sender']);
+    console.log('########## context.payload: ', context.payload);
+    console.log('########## context.issue: ', context['issue']);
     console.log('########## context: ', context);
     
 
@@ -44,9 +46,10 @@ function getReviewerInfo() {
                 `트리거된 액션 정보\n` +
                 `${context.eventName}\n` +
                 `${context.payload.action}\n`  +
-                `--------------------------------------` +
-                `이슈 주소\n` +
-                `${context.payload.issue.html_url}`
+                `--------------------------------------\n` +
+                // `이슈 주소\n` +
+                // 항상 존재하는건 아님
+                // `${context.payload.issue.html_url}`
             })
     }).then(async(res) => {
       const response = await res.json()
