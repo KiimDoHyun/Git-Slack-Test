@@ -33,14 +33,8 @@ function getReviewerInfo() {
     // console.log(`########## context: [${context.eventName}]`, context[context.eventName]);
     // console.log('########## context: ', context);
 
-    console.log('########## context.issue.assignee: ', context.issue.assignee);
-    console.log('########## context.issue.assignees: ', context.issue.assignees);
-    console.log('########## context.issue.labels: ', context.issue.labels);
-    console.log('########## context.issue.pull_request: ', context.issue.pull_request);
-    console.log('########## context.issue.reactions: ', context.issue.reactions);
-    console.log('########## context.issue.user: ', context.issue.user);
-    
-    
+    console.log('########## context.payload.issue: ', context.payload['issue']);
+    console.log('########## context.payload.pull_request: ', context.payload['pull_request']);
 
     const messageId = slackUserInfo['KiimDoHyun'];
     fetch(`https://slack.com/api/chat.postMessage`, {
@@ -55,16 +49,17 @@ function getReviewerInfo() {
                 `트리거된 액션 정보\n` +
                 `${context.eventName}\n` +
                 `${context.payload.action}\n`  +
-                `--------------------------------------\n`
-                `보낸사람 (발생시킨 사람)`
-                `${context.payload.sender.login}`
-                `--------------------------------------\n`
-                `PR 제목`
-                `${context.issue.title}`
-                `PR 주인`
-                `${context.issue.}`
-                `PR 라벨`
-                `${context.payload.sender.login}`
+                `--------------------------------------\n` +
+                `보낸사람 (발생시킨 사람)` +
+                `${context.actor}` +
+                `--------------------------------------\n` +
+                // `PR 제목` +
+                // `${context.issue.title}` +
+                // `PR 주인` +
+                // `${context.issue.}`
+                // `PR 라벨` +
+                // `${context.payload.sender.login}`
+                // `--------------------------------------\n` +
                 // `이슈 주소\n` +
                 // 항상 존재하는건 아님
                 // `${context.payload.issue.html_url}`
