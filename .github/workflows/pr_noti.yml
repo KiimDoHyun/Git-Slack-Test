@@ -2,11 +2,16 @@ name: slack_notice
 
 # on:
 #     push
+
+# review_requested: 풀 리퀘스트에 대한 리뷰가 요청되었을 때 발생합니다.
+
 on: 
   pull_request:
     types: [review_requested]
   pull_request_review:
-    types: [edited, dismissed]
+    types: [submitted, edited]
+  pull_request_review_comment:
+    types: [created, edited]
 jobs:
   build:
     runs-on: ubuntu-latest
