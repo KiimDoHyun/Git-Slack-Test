@@ -46,7 +46,7 @@ function getReviewerInfo() {
                 `트리거된 액션 정보\n` +
                 `${context.eventName}\n` +
                 `${context.payload.action}\n`  +
-                `--------------------------------------\n` +
+                `--------------------------------------\n`
                 // `이슈 주소\n` +
                 // 항상 존재하는건 아님
                 // `${context.payload.issue.html_url}`
