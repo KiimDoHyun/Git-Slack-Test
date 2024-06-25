@@ -110,7 +110,7 @@ function getReviewerInfo() {
     // console.log(`PR 제목: ${prTitle}`);
     // console.log(`PR 내용: ${prBody}`);
     // console.log(`PR URL: ${prUrl}`);
-    console.log('리뷰어 정보', JSON.stringify(github.context.payload.pull_request.requested_reviewers));
+    // console.log('리뷰어 정보', JSON.stringify(github.context.payload.pull_request.requested_reviewers));
   } catch (error) {
     core.setFailed(error.message);
   }
