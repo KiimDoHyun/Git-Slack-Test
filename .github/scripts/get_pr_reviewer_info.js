@@ -34,7 +34,7 @@ function getReviewerInfo() {
               },
               body: JSON.stringify({
                 channel: messageId,
-                text: 'Hello world'
+                text: `트리거된 액션 정보:${context.payload.action}`
               })
       }).then(async(res) => {
         const response = await res.json()
