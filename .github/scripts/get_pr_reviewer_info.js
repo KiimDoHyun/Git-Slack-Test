@@ -21,9 +21,9 @@ function getReviewerInfo() {
     // console.log('########## accessToken: ', accessToken);
     // console.log('########## myChannel: ', myChannel);
 
-    console.log('########## context.action: ', context.action);
-    console.log('########## context.eventName: ', context.eventName);
-    console.log('########## context.payload.sender: ', context.payload.sender);
+    // console.log('########## context.action: ', context.action);
+    // console.log('########## context.eventName: ', context.eventName);
+    console.log('########## context.payload: ', context.payload);
     console.log('########## context: ', context);
 
     const messageId = slackUserInfo['KiimDoHyun'];
