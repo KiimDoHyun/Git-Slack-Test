@@ -26,7 +26,7 @@ function getReviewerInfo() {
     console.log('########## context.payload: ', context.payload);
     console.log('########## context.payload.pull_request : ', context.payload['pull_request']);
     console.log('########## context.payload.sender: ', context.payload['sender']);
-    // console.log('########## context: ', context);
+    console.log('########## context: ', context);
     
 
     const messageId = slackUserInfo['KiimDoHyun'];
