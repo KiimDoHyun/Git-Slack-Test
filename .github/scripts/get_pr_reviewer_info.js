@@ -61,8 +61,13 @@ function getReviewerInfo() {
       link = context.payload.comment.html_url
 
 
+      /*
+      a 가 b의 pr에 댓글을 남기면
+
+      b에게 a가 댓글을 남겼다고 알린다.
+      */
       blocks.push({
-        "type": "section",
+        "type": "context",
         "elements": [
           {
             "type": "image",
@@ -92,7 +97,29 @@ function getReviewerInfo() {
         type += '할당'
       } 
 
-
+      blocks.push({
+        "type": "context",
+        "elements": [
+          {
+            "type": "image",
+            "image_url": `${context.payload.comment.user.avatar_url}`,
+            "alt_text": `${commentUser}`
+          },
+          {
+            "type": "mrkdwn",
+            "text": `리뷰어로 할당되었습니다!`
+          }
+        ]
+      },);
+      blocks.push(
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": `<${link}|확인하러가기>`
+          }
+        }
+      )
       
 
       message = `PR 리뷰어로 할당되었습니다 확인해보세요!`
@@ -147,6 +174,7 @@ function getReviewerInfo() {
             body: JSON.stringify({
               channel: messageId,
               blocks: blocks,
+              text: '',
               // text: 
               //   `트리거된 액션 정보\n` +
               //   `${type}\n` +
