@@ -62,7 +62,7 @@ function getReviewerInfo() {
 
 
       blocks.push({
-        "type": "context",
+        "type": "section",
         "elements": [
           {
             "type": "image",
