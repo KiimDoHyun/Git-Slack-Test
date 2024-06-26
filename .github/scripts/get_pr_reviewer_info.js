@@ -34,9 +34,11 @@ function getReviewerInfo() {
     // console.log('########## context: ', context);
 
 
+    // 수정 이벤트를 굳이 감지 해야 하나
     let prTitle = '';
     let type = '';
     let body = '';
+    let link = '';
     // let 
     if(context.eventName === 'issue_comment') {
       type = '댓글'
@@ -47,14 +49,17 @@ function getReviewerInfo() {
       } 
       prTitle = context.payload.issue.title;
       body = context.payload.comment.body;
+      link = context.payload.comment.html_url
       // context.payload.issue 에서 pr 정보 추출
     } else if (context.eventName === 'pull_request'){
       type = '리뷰어'
       if(context.payload.action === 'review_requested') {
         type += '할당'
       } 
+      console.log('########## context.payload.pull_request.labels: ', context.payload.pull_request.labels);
       // context.payload.pull_request 에서 pr 정보 추출
       prTitle = context.payload.pull_request.title;
+      link = context.payload.pull_request.html_url
     } else if (context.eventName === 'pull_request_review'){
       console.log('context.payload.review.user', context.payload.review.user)
       type = '코드리뷰'
