@@ -73,12 +73,17 @@ function getReviewerInfo() {
       } 
 
 
+
       /*
       리뷰어로 등록된 사람
       context.payload.comment.user
 
       메세지 전송 대상(리뷰어로 등록된 사람과 동일함)
       context.payload.comment.user.login
+
+      github.context.payload.pull_request.requested_reviewers
+      에 배열로 정보가 들어있음
+      login 값에 접근해서 각 사용자에게 알림으로 날린다.
       */
 
 
@@ -161,6 +166,7 @@ function getReviewerInfo() {
               channel: messageId,
               blocks: blocks,
               text: '',
+              "unfurl_links": true
               // text: 
               //   `트리거된 액션 정보\n` +
               //   `${type}\n` +
