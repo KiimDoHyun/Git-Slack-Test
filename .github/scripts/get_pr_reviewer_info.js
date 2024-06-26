@@ -40,6 +40,7 @@ function getReviewerInfo() {
     let body = '';
     let link = '';
     let message = '';
+    let blocks = [];
     // let 
     if(context.eventName === 'issue_comment') {
       type = '댓글'
@@ -52,10 +53,38 @@ function getReviewerInfo() {
 
       // ~ 님이 PR 에 댓글을 남겼습니다.
       // 100자 까지만 출력하고 ... 처리?
-      console.log("context.payload.comment.user", context.payload.comment.user)
+      // console.log("context.payload.comment.user", context.payload.comment.user)
+      const commentUser = context.payload.comment.user.login;
+      message = `${commentUser}님이 댓글을 남겼습니다 확인해보세요!`;
       prTitle = context.payload.issue.title;
       body = context.payload.comment.body;
       link = context.payload.comment.html_url
+
+
+      blocks.push({
+        "type": "context",
+        "elements": [
+          {
+            "type": "image",
+            "image_url": `${context.payload.comment.user.avatar_url}`,
+            "alt_text": `${commentUser}`
+          },
+          {
+            "type": "mrkdwn",
+            "text": `*${commentUser}* 님이 댓글을 남겼습니다!`
+          }
+        ]
+      },);
+      blocks.push(
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": `<${link}|확인하러가기>`
+          }
+        }
+      )
+
       // context.payload.issue 에서 pr 정보 추출
     } else if (context.eventName === 'pull_request'){
       type = '리뷰어'
@@ -63,6 +92,10 @@ function getReviewerInfo() {
         type += '할당'
       } 
 
+
+      
+
+      message = `PR 리뷰어로 할당되었습니다 확인해보세요!`
       /*
       labels
       [
@@ -88,6 +121,9 @@ function getReviewerInfo() {
         type += '추가'
         body = context.payload.review.body
       } 
+
+      const commentUser = context.payload.review.user.login;
+      message = `${commentUser}님이 코드리뷰를 남겼습니다 확인해보세요!`;
       
       // else if (context.payload.action === 'created') {
       //   type += '수정'
@@ -110,23 +146,25 @@ function getReviewerInfo() {
             },
             body: JSON.stringify({
               channel: messageId,
-              text: 
-                `트리거된 액션 정보\n` +
-                `${type}\n` +
-                `${context.eventName}\n` +
-                `${context.payload.action}\n`  +
-                `--------------------------------------\n` +
-                `보낸사람 (발생시킨 사람)\n` +
-                `${context.actor}\n` +
-                `--------------------------------------\n` +
-                `PR 제목\n` +
-                `${prTitle}\n` +
-                `--------------------------------------\n` +
-                `PR 알림 내용??\n` +
-                `${body}\n` +
-                `--------------------------------------\n` + 
-                `링크\n` +
-                `${link}\n`
+              blocks: blocks,
+              // text: 
+              //   `트리거된 액션 정보\n` +
+              //   `${type}\n` +
+              //   `${context.eventName}\n` +
+              //   `${context.payload.action}\n`  +
+              //   `--------------------------------------\n` +
+              //   `보낸사람 (발생시킨 사람)\n` +
+              //   `${context.actor}\n` +
+              //   `--------------------------------------\n` +
+              //   `PR 제목\n` +
+              //   `${prTitle}\n` +
+              //   `--------------------------------------\n` +
+              //   `PR 알림 내용??\n` +
+              //   `${message}\n`
+              //   `${body}\n` +
+              //   `--------------------------------------\n` + 
+              //   `링크\n` +
+              //   `${link}\n`
                 // `PR 주인` +
                 // `${context.issue.}`
                 // `PR 라벨` +
@@ -236,7 +274,4 @@ function getReviewerInfo() {
   }
   
   getReviewerInfo();
-  
-
-
   
