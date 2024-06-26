@@ -8,31 +8,7 @@ function getReviewerInfo() {
   try {
     // PR 정보 가져오기
     const context = github.context;
-    // const pullRequest = context.payload.pull_request;
-    // const prNumber = pullRequest.number;
-    // const prTitle = pullRequest.title;
-    // const prBody = pullRequest.body;
-    // const prUrl = pullRequest.url;
-
-    // const reviewers = github.context.payload.pull_request.requested_reviewers || [];
-    
     const accessToken = process.env.SLACK_API_TOKEN; // Bearer 토큰
-    // const myChannel = process.env.GIT_DOH_CHANNELID;
-    // console.log('########## accessToken: ', accessToken);
-    // console.log('########## myChannel: ', myChannel);
-
-    // console.log('########## context.payload.action: ', context.payload.action);
-    // console.log('########## context.eventName: ', context.eventName);
-    // console.log('########## context.payload: ', context.payload);
-
-    // pr 요청이 발생한 경우에만 값이 들어있음
-    // console.log('########## context.payload.pull_request : ', context.payload['pull_request']);
-    // console.log('########## context.payload.sender: ', context.payload['sender']);
-    // console.log('########## context.payload: ', context.payload);
-    // console.log('########## context.issue: ', context['issue']);
-    // console.log(`########## context: [${context.eventName}]`, context[context.eventName]);
-    // console.log('########## context: ', context);
-
 
     // 수정 이벤트를 굳이 감지 해야 하나
     let prTitle = '';
@@ -51,21 +27,12 @@ function getReviewerInfo() {
       //   type += '수정'
       // } 
 
-      // ~ 님이 PR 에 댓글을 남겼습니다.
-      // 100자 까지만 출력하고 ... 처리?
-      // console.log("context.payload.comment.user", context.payload.comment.user)
       const commentUser = context.payload.comment.user.login;
       message = `${commentUser}님이 댓글을 남겼습니다 확인해보세요!`;
       prTitle = context.payload.issue.title;
       body = context.payload.comment.body;
       link = context.payload.comment.html_url
 
-
-      /*
-      a 가 b의 pr에 댓글을 남기면
-
-      b에게 a가 댓글을 남겼다고 알린다.
-      */
       blocks.push({
         "type": "context",
         "elements": [
@@ -90,6 +57,14 @@ function getReviewerInfo() {
         }
       )
 
+      /*
+      댓글을 남긴 사람의 정보
+      context.payload.comment.user
+
+      메세지 전송 대상
+      context.payload.issue.user.login
+      */
+
       // context.payload.issue 에서 pr 정보 추출
     } else if (context.eventName === 'pull_request'){
       type = '리뷰어'
@@ -97,29 +72,40 @@ function getReviewerInfo() {
         type += '할당'
       } 
 
-      blocks.push({
-        "type": "context",
-        "elements": [
-          {
-            "type": "image",
-            "image_url": `${context.payload.comment.user.avatar_url}`,
-            "alt_text": `${commentUser}`
-          },
-          {
-            "type": "mrkdwn",
-            "text": `리뷰어로 할당되었습니다!`
-          }
-        ]
-      },);
-      blocks.push(
-        {
-          "type": "section",
-          "text": {
-            "type": "mrkdwn",
-            "text": `<${link}|확인하러가기>`
-          }
-        }
-      )
+
+      /*
+      리뷰어로 등록된 사람
+      context.payload.comment.user
+
+      메세지 전송 대상(리뷰어로 등록된 사람과 동일함)
+      context.payload.comment.user.login
+      */
+
+
+      console.log('context.payload.pull_request', context.payload.pull_request);
+      // blocks.push({
+      //   "type": "context",
+      //   "elements": [
+      //     {
+      //       "type": "image",
+      //       "image_url": `${context.payload.comment.user.avatar_url}`,
+      //       "alt_text": `${commentUser}`
+      //     },
+      //     {
+      //       "type": "mrkdwn",
+      //       "text": `리뷰어로 할당되었습니다!`
+      //     }
+      //   ]
+      // },);
+      // blocks.push(
+      //   {
+      //     "type": "section",
+      //     "text": {
+      //       "type": "mrkdwn",
+      //       "text": `<${link}|확인하러가기>`
+      //     }
+      //   }
+      // )
       
 
       message = `PR 리뷰어로 할당되었습니다 확인해보세요!`
