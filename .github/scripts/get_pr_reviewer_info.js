@@ -166,7 +166,7 @@ function getReviewerInfo() {
               channel: messageId,
               blocks: blocks,
               text: '',
-              "unfurl_links": true
+              "unfurl_links": false
               // text: 
               //   `트리거된 액션 정보\n` +
               //   `${type}\n` +
