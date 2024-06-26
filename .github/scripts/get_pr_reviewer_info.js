@@ -39,6 +39,7 @@ function getReviewerInfo() {
     let type = '';
     let body = '';
     let link = '';
+    let message = '';
     // let 
     if(context.eventName === 'issue_comment') {
       type = '댓글'
@@ -47,6 +48,10 @@ function getReviewerInfo() {
       } else if (context.payload.action === 'edited') {
         type += '수정'
       } 
+
+      // ~ 님이 PR 에 댓글을 남겼습니다.
+      // 100자 까지만 출력하고 ... 처리?
+      console.log("context.payload.comment.user", context.payload.comment.user)
       prTitle = context.payload.issue.title;
       body = context.payload.comment.body;
       link = context.payload.comment.html_url
@@ -56,6 +61,21 @@ function getReviewerInfo() {
       if(context.payload.action === 'review_requested') {
         type += '할당'
       } 
+
+      /*
+      labels
+      [
+        {
+          color: 'a2eeef',
+          default: true,
+          description: 'New feature or request',
+          id: 7094586470,
+          name: 'enhancement',
+          node_id: 'LA_kwDOMKvoBs8AAAABpt7MZg',
+          url: 'https://api.github.com/repos/KiimDoHyun/Git-Slack-Test/labels/enhancement'
+        }
+      ]
+      */
       console.log('########## context.payload.pull_request.labels: ', context.payload.pull_request.labels);
       // context.payload.pull_request 에서 pr 정보 추출
       prTitle = context.payload.pull_request.title;
@@ -102,6 +122,8 @@ function getReviewerInfo() {
                 `PR 알림 내용??\n` +
                 `${body}\n` +
                 `--------------------------------------\n`
+                `링크\n` +
+                `${link}\n` +
                 // `PR 주인` +
                 // `${context.issue.}`
                 // `PR 라벨` +
