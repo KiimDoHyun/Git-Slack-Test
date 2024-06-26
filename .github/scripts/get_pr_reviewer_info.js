@@ -45,9 +45,10 @@ function getReviewerInfo() {
       type = '댓글'
       if(context.payload.action === 'created') {
         type += '추가'
-      } else if (context.payload.action === 'edited') {
-        type += '수정'
       } 
+      // else if (context.payload.action === 'edited') {
+      //   type += '수정'
+      // } 
 
       // ~ 님이 PR 에 댓글을 남겼습니다.
       // 100자 까지만 출력하고 ... 처리?
@@ -86,10 +87,12 @@ function getReviewerInfo() {
       if(context.payload.action === 'submitted') {
         type += '추가'
         body = context.payload.review.body
-      } else if (context.payload.action === 'created') {
-        type += '수정'
-        body = context.payload.review.body
       } 
+      
+      // else if (context.payload.action === 'created') {
+      //   type += '수정'
+      //   body = context.payload.review.body
+      // } 
       // context.payload.pull_request 에서 pr 정보 추출
       prTitle = context.payload.pull_request.title;
     }
@@ -123,7 +126,7 @@ function getReviewerInfo() {
                 `${body}\n` +
                 `--------------------------------------\n`
                 `링크\n` +
-                `${link}\n` +
+                `${link}\n`
                 // `PR 주인` +
                 // `${context.issue.}`
                 // `PR 라벨` +
