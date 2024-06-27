@@ -120,7 +120,7 @@ function getReviewerInfo() {
               elements: [
                 {
                   type: 'text',
-                  text: `${context.payload.review.body}`,
+                  text: `${context.payload.comment.body}`,
                 },
               ],
             },
