@@ -152,7 +152,9 @@ function getReviewerInfo() {
     } else if (context.eventName === 'pull_request'){
       if(context.payload.action === 'review_requested') {
 
+        console.log('check')
         console.log('########## github.context.payload: ', github.context.payload);
+        console.log('########## github.context.payload.pull_request: ', github.context.payload.pull_request);
 
         /*
       리뷰어로 등록된 사람
@@ -225,15 +227,6 @@ function getReviewerInfo() {
               }
             ]
           },
-          {
-            "type": "rich_text_preformatted",
-            "elements": [
-              {
-                "type": "text",
-                "text": `${context.payload.review.body}`,
-              }
-            ]
-          }
         ]
       })
       reviewers.forEach((reviewer) => {
