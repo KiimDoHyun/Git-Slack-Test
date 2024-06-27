@@ -177,10 +177,41 @@ function getReviewerInfo() {
         return false;
       }).map((assignee) => slackUserInfo[assignee].userId);
       
-      assignees.map((assignee) => {
-        assignee.login
+      const bodyElements = [
+        {
+          "type": "text",
+          "style": {
+            "bold": true
+          },
+          "text": "담당자"
+        },
+        {
+          "type": "text",
+          "text": ": "
+        },
+      ];
+      const assigneeIdsLastIdx = assigneeIds.length - 1;
+      assigneeIds.forEach((assigneeId, index) => {
+        bodyElements.push({
+          "type": "user",
+          "user_id": assigneeId,
+        })
+
+        if(index !== assigneeIdsLastIdx) {
+          bodyElements.push({
+            "type": "text",
+            "text": ',',
+          })
+        }
       })
 
+      // assigness에 등록된 사용자에게 알림을 보낸다
+      const prOwner = context.payload.pull_request.user.login;
+      if (!slackUserInfo[prOwner]) {
+        console.log('사용자 등록 안되어있음', prOwner);
+        return;
+      }
+      const prOwnerId = slackUserInfo[prOwner].userId;
       blocks.push({
         "type": "section",
         "fields": [
@@ -201,31 +232,14 @@ function getReviewerInfo() {
             "elements": [
               {
                 "type": "link",
-                "url": `${context.payload.pull_request.html_url.replace('https://', '')}`,
-                "text": `${context.payload.pull_request.title}`
+                "url": `${context.payload.pull_request.html_url}`,
+                "text": `#${context.payload.pull_request.number} ${context.payload.pull_request.title}`
               }
             ]
           },
           {
             "type": "rich_text_section",
-            // "elements": assigneeIds.map((assigneeId) => ())  [
-            "elements": [
-              {
-                "type": "text",
-                "style": {
-                  "bold": true
-                },
-                "text": "담당자"
-              },
-              {
-                "type": "text",
-                "text": ": "
-              },
-              {
-                "type": "user",
-                "user_id": "U077JS1FCNS"
-              }
-            ]
+            "elements": bodyElements
           },
         ]
       })
@@ -234,11 +248,11 @@ function getReviewerInfo() {
         // console.log('########## reviewer: ', reviewer);
         // console.log('########## reviewerInfo: ', reviewerInfo);
         if(!reviewerInfo) {
-          console.log(`${reviewer.login}의 정보가 없습니다.`);
+          console.log(`[리뷰어 할당 단계 메세지 전송 실패] ${reviewer.login}의 정보가 없습니다.`);
           return;
         }
 
-        const channelId = reviewerInfo? reviewerInfo.directMessageId : slackUserInfo['KiimDoHyun'.directMessageId];
+        const channelId = reviewerInfo.directMessageId;
         sendSlackMessage({blocks, channelId})
       });
     } 
