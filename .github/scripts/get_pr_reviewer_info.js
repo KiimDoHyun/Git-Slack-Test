@@ -152,6 +152,8 @@ function getReviewerInfo() {
     } else if (context.eventName === 'pull_request'){
       if(context.payload.action === 'review_requested') {
 
+        console.log('########## github.context.payload: ', github.context.payload);
+
         /*
       리뷰어로 등록된 사람
       context.payload.comment.user
@@ -163,8 +165,21 @@ function getReviewerInfo() {
       에 배열로 정보가 들어있음
       login 값에 접근해서 각 사용자에게 알림으로 날린다.
       */
+      const reviewers = github.context.payload.pull_request.requested_reviewers;
 
-      blocks.push(		{
+      if(reviewers.length === 0) return;
+
+      const assignees = github.context.payload.pull_request.assignees;
+      const assigneeIds = assignees.filter((assignee) => {
+        if(slackUserInfo[assignee]) return true;
+        return false;
+      }).map((assignee) => slackUserInfo[assignee].userId);
+      
+      assignees.map((assignee) => {
+        assignee.login
+      })
+
+      blocks.push({
         "type": "section",
         "fields": [
           {
@@ -172,14 +187,59 @@ function getReviewerInfo() {
             "text": "💬 *리뷰어로 할당되었어요!*"
           }
         ]
+      });
+      blocks.push({
+        "type": "divider"
+      });
+      blocks.push({
+        "type": "rich_text",
+        "elements": [
+          {
+            "type": "rich_text_section",
+            "elements": [
+              {
+                "type": "link",
+                "url": `${context.payload.pull_request.html_url.replace('https://', '')}`,
+                "text": `${context.payload.pull_request.title}`
+              }
+            ]
+          },
+          {
+            "type": "rich_text_section",
+            // "elements": assigneeIds.map((assigneeId) => ())  [
+            "elements": [
+              {
+                "type": "text",
+                "style": {
+                  "bold": true
+                },
+                "text": "담당자"
+              },
+              {
+                "type": "text",
+                "text": ": "
+              },
+              {
+                "type": "user",
+                "user_id": "U077JS1FCNS"
+              }
+            ]
+          },
+          {
+            "type": "rich_text_preformatted",
+            "elements": [
+              {
+                "type": "text",
+                "text": `${context.payload.review.body}`,
+              }
+            ]
+          }
+        ]
       })
-    } 
-
-      const reviewers = github.context.payload.pull_request.requested_reviewers;
       reviewers.forEach((reviewer) => {
         const reviewerInfo = slackUserInfo[reviewer.login];
-        console.log('########## reviewer: ', reviewer);
-        console.log('########## reviewerInfo: ', reviewerInfo);
+        // console.log('########## reviewer: ', reviewer);
+        // console.log('########## reviewerInfo: ', reviewerInfo);
         if(!reviewerInfo) {
           console.log(`${reviewer.login}의 정보가 없습니다.`);
           return;
@@ -187,7 +247,10 @@ function getReviewerInfo() {
 
         const channelId = reviewerInfo? reviewerInfo.directMessageId : slackUserInfo['KiimDoHyun'.directMessageId];
         sendSlackMessage({blocks, channelId})
-      })
+      });
+    } 
+
+
 
       // blocks.push({
       //   "type": "context",
@@ -213,8 +276,6 @@ function getReviewerInfo() {
       //   }
       // )
       
-
-      message = `PR 리뷰어로 할당되었습니다 확인해보세요!`
       /*
       labels
       [
@@ -240,8 +301,13 @@ function getReviewerInfo() {
         console.log('########## context.payload.pull_request: ', context.payload.pull_request);
         console.log('########## context.payload.review: ', context.payload.review);
         
-        channelId = slackUserInfo[context.payload.pull_request.user.login].directMessageId;
-        userId = slackUserInfo[context.payload.review.user.login].userId;
+        // todo: body 가 null 로 잡히는 중
+        const reviewr = context.payload.pull_request.user.login;
+        const prOwner = context.payload.review.user.login;
+        if(reviewr === prOwner) return;
+
+        channelId = slackUserInfo[prOwner].userId;
+        userId = slackUserInfo[reviewr].directMessageId;
 
         blocks.push({
           "type": "section",
