@@ -241,14 +241,14 @@ function getReviewerInfo() {
         console.log('########## context.payload.review: ', context.payload.review);
         
         channelId = slackUserInfo[context.payload.pull_request.user.login].directMessageId;
-        userId = slackUserInfo[context.payload.pull_request.user.login].userId;
+        userId = slackUserInfo[context.payload.review.user.login].userId;
 
         blocks.push({
           "type": "section",
           "fields": [
             {
               "type": "mrkdwn",
-              "text": "💬 *새로운 리뷰가 등록되었어요!*" + `${context.payload.review.user.login} 님이 남김`
+              "text": "💬 *새로운 리뷰가 등록되었어요!*"
             }
           ]
         });
