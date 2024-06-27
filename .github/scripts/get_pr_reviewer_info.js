@@ -153,7 +153,7 @@ function getReviewerInfo() {
       if(context.payload.action === 'review_requested') {
 
         console.log('check')
-        console.log('########## github.context.payload: ', github.context.payload);
+        // console.log('########## github.context.payload: ', github.context.payload);
         console.log('########## github.context.payload.pull_request: ', github.context.payload.pull_request);
 
         /*
@@ -172,7 +172,10 @@ function getReviewerInfo() {
       if(reviewers.length === 0) return;
 
       const assignees = github.context.payload.pull_request.assignees;
+
+      console.log('########## assignees: ', assignees);
       const assigneeIds = assignees.filter((assignee) => {
+        console.log('########## slackUserInfo[assignee]: ', slackUserInfo[assignee]);
         if(slackUserInfo[assignee]) return true;
         return false;
       }).map((assignee) => slackUserInfo[assignee].userId);
