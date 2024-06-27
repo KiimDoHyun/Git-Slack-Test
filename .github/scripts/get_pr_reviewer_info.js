@@ -240,6 +240,7 @@ function getReviewerInfo() {
           return;
         }
 
+        console.log('########## context.payload.review: ', context.payload.review);
         console.log('########## prOwner: ', prOwner);
         console.log('########## reviewr: ', reviewr);
         channelId = slackUserInfo[prOwner].directMessageId;
@@ -266,7 +267,7 @@ function getReviewerInfo() {
                 {
                   type: 'link',
                   url: `${context.payload.review.html_url}`,
-                  text: `${context.payload.pull_request.title}`,
+                  text: `#${context.payload.pull_request.number} ${context.payload.pull_request.title}`,
                 },
               ],
             },
