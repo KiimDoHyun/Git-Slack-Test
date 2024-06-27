@@ -179,9 +179,13 @@ function getReviewerInfo() {
         const reviewerInfo = slackUserInfo[reviewer.login];
         console.log('########## reviewer: ', reviewer);
         console.log('########## reviewerInfo: ', reviewerInfo);
-        const channelId = reviewerInfo? reviewerInfo.directMessageId : slackUserInfo['KiimDoHyun'.directMessageId];
+        if(!reviewerInfo) {
+          console.log(`${reviewer.login}의 정보가 없습니다.`);
+          return;
+        }
 
-        // sendSlackMessage({blocks, channelId})
+        const channelId = reviewerInfo? reviewerInfo.directMessageId : slackUserInfo['KiimDoHyun'.directMessageId];
+        sendSlackMessage({blocks, channelId})
       })
 
       // blocks.push({
@@ -232,7 +236,8 @@ function getReviewerInfo() {
       if(context.payload.action === 'submitted') {
         body = context.payload.review.body
 
-        console.log('########## context.payload.pull_request.user: ', context.payload.pull_request.user);
+        console.log('########## context.payload.pull_request: ', context.payload.pull_request);
+        console.log('########## context.payload.review: ', context.payload.review);
         
         channelId = slackUserInfo[context.payload.pull_request.user.login].directMessageId;
         blocks.push({
@@ -243,8 +248,51 @@ function getReviewerInfo() {
               "text": "💬 *새로운 리뷰가 등록되었어요!*" + `${context.payload.review.user.login} 님이 남김`
             }
           ]
-        })
-
+        });
+        blocks.push({
+          "type": "divider"
+        });
+        // blocks.push({
+        //   "type": "rich_text",
+        //   "elements": [
+        //     {
+        //       "type": "rich_text_section",
+        //       "elements": [
+        //         {
+        //           "type": "link",
+        //           "url": `${context.payload.review.html_url}`,
+        //           "text": "#1920 feat: 조직 리스트에 아이콘 추가"
+        //         }
+        //       ]
+        //     },
+        //     {
+        //       "type": "rich_text_section",
+        //       "elements": [
+        //         {
+        //           "type": "text",
+        //           "text": "\n"
+        //         },
+        //         {
+        //           "type": "user",
+        //           "user_id": "U077JS1FCNS"
+        //         },
+        //         {
+        //           "type": "text",
+        //           "text": " 🗣️ "
+        //         }
+        //       ]
+        //     },
+        //     {
+        //       "type": "rich_text_preformatted",
+        //       "elements": [
+        //         {
+        //           "type": "text",
+        //           "text": "고생하셨습니다~!3시간 미만은 5초 raw 데이터, 3시간 이상 조회는 5분 통계 데이터를 사용하는 차이가 있는 것 같네요근데 지표명이 다른 점은 백엔드에 공유가 필요할 것 같군용...는 공유를 해주셨네요....."
+        //         }
+        //       ]
+        //     }
+        //   ]
+        // })
         sendSlackMessage({blocks, channelId});
       } 
 
