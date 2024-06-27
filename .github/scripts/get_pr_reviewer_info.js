@@ -36,6 +36,7 @@ function getReviewerInfo() {
     let link = '';
     let message = '';
     let blocks = [];
+    let channelId = '';
 
     if(context.eventName === 'issue_comment') {
       if(context.payload.action === 'created') {
@@ -143,7 +144,7 @@ function getReviewerInfo() {
 
             // 메세지를 보낼 대상 = pr 주인
 
-            const channelId = slackUserInfo[context.payload.issue.user.login].directMessageId;
+            channelId = slackUserInfo[context.payload.issue.user.login].directMessageId;
             sendSlackMessage({blocks, channelId})
       } 
       // context.payload.issue 에서 pr 정보 추출
@@ -176,7 +177,7 @@ function getReviewerInfo() {
       const reviewers = github.context.payload.pull_request.requested_reviewers;
       reviewers.forEach((reviewer) => {
         console.log('########## reviewer: ', reviewer);
-        // const channelId = slackUserInfo[reviewer].directMessageId;
+        const channelId = slackUserInfo[reviewer.login].directMessageId;
 
         sendSlackMessage({blocks, channelId})
       })
@@ -235,19 +236,20 @@ function getReviewerInfo() {
 
         console.log('########## context.payload.pull_request.user: ', context.payload.pull_request.user);
         
-        const channelId = slackUserInfo[context.payload.pull_request.user.login].directMessageId;
+        channelId = slackUserInfo[context.payload.pull_request.user.login].directMessageId;
         blocks.push({
           "type": "section",
           "fields": [
             {
               "type": "mrkdwn",
-              "text": "💬 *새로운 리뷰가 등록되었어요!*"
+              "text": "💬 *새로운 리뷰가 등록되었어요!*" + `${context.payload.review.user.login} 님이 남김`
             }
           ]
         })
+
+        sendSlackMessage({blocks, channelId});
       } 
 
-      // sendSlackMessage({blocks, channelId})
 
       // const commentUser = context.payload.review.user.login;
       // message = `${commentUser}님이 코드리뷰를 남겼습니다 확인해보세요!`;
