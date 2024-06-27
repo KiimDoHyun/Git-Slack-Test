@@ -240,8 +240,8 @@ function getReviewerInfo() {
           return;
         }
 
-        channelId = slackUserInfo[prOwner].userId;
-        userId = slackUserInfo[reviewr].directMessageId;
+        channelId = slackUserInfo[prOwner].directMessageId;
+        userId = slackUserInfo[reviewr].userId;
 
         blocks.push({
           type: 'section',
