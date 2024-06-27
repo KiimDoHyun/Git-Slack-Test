@@ -226,17 +226,17 @@ function getReviewerInfo() {
 
         // todo: body 가 null 로 잡히는 중
         // todo: assignees 로 변경
-        const reviewr = context.payload.pull_request.user.login;
-        const prOwner = context.payload.review.user.login;
+        const reviewr = context.payload.review.user.login;
+        const prOwner = context.payload.pull_request.user.login;
         if (reviewr === prOwner) return;
 
         if(!slackUserInfo[prOwner]) {
-          console.log(`[리뷰 등록 단계 메세지 전송 실패] ${reviewr}의 정보가 없습니다.`);
+          console.log(`[리뷰 등록 단계 메세지 전송 실패] ${prOwner}의 정보가 없습니다.`);
           return;
         }
 
-        if(!slackUserInfo[prOwner]) {
-          console.log(`[리뷰 등록 단계 메세지 전송 실패] ${prOwner}의 정보가 없습니다.`);
+        if(!slackUserInfo[reviewr]) {
+          console.log(`[리뷰 등록 단계 메세지 전송 실패] ${reviewr}의 정보가 없습니다.`);
           return;
         }
 
