@@ -177,6 +177,8 @@ function getReviewerInfo() {
         return false;
       }).map((assignee) => slackUserInfo[assignee].userId);
       
+      console.log('########## assigneeIds: ', assigneeIds);
+
       const bodyElements = [
         {
           "type": "text",
