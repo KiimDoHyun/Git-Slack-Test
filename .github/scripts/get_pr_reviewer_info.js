@@ -4,77 +4,153 @@ require('dotenv').config();
 
 const slackUserInfo = require('../json/slackUserInfo.json');
 
+const sendSlackMessage = ({ blocks, channelId, text = '' }) => {
+  const accessToken = process.env.SLACK_API_TOKEN; // Bearer 토큰
+  fetch(`https://slack.com/api/chat.postMessage`, {
+    method: "POST",
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+            Authorization: `Bearer ${accessToken}` // 헤더에 Bearer 토큰 추가
+          },
+          body: JSON.stringify({
+            channel: channelId,
+            blocks: blocks,
+            text: text,
+          })
+  }).then(async(res) => {
+    const response = await res.json()
+    console.log('res', response)}).catch((e) => {
+    console.log('실패', e)
+  })
+};
+
+
+
 function getReviewerInfo() {
   try {
-    // PR 정보 가져오기
     const context = github.context;
-    const accessToken = process.env.SLACK_API_TOKEN; // Bearer 토큰
 
-    // 수정 이벤트를 굳이 감지 해야 하나
     let prTitle = '';
     let type = '';
     let body = '';
     let link = '';
     let message = '';
     let blocks = [];
-    // let 
+
     if(context.eventName === 'issue_comment') {
-      type = '댓글'
       if(context.payload.action === 'created') {
-        type += '추가'
+
+        // const commentUser = context.payload.comment.user.login;
+        // message = `${commentUser}님이 댓글을 남겼습니다 확인해보세요!`;
+        // prTitle = context.payload.issue.title;
+        // body = context.payload.comment.body;
+        // link = context.payload.comment.html_url
+
+        /*
+        댓글을 남긴 사람의 정보
+        context.payload.comment.user
+
+        메세지 전송 대상
+        context.payload.issue.user.login
+        */
+          blocks.push({
+            "type": "section",
+            "fields": [
+              {
+                "type": "mrkdwn",
+                "text": "💬 *새로운 댓글이 등록되었어요!*"
+              }
+            ]
+          })
+          // blocks.push({
+          //   "type": "divider"
+          // })
+          // blocks.push({
+          //   "type": "rich_text",
+          //   "elements": [
+          //     {
+          //       "type": "rich_text_list",
+          //       "style": "bullet",
+          //       "elements": [
+          //         {
+          //           "type": "rich_text_section",
+          //           "elements": [
+          //             {
+          //               "type": "link",
+          //               "url": context.payload.comment.html_url,
+          //               "text": `${context.payload.issue.title}`
+          //             }
+          //           ]
+          //         },
+          //         {
+          //           "type": "rich_text_section",
+          //           "elements": [
+          //             {
+          //               "type": "text",
+          //               "style": {
+          //                 "bold": true
+          //               },
+          //               "text": "담당자"
+          //             },
+          //             {
+          //               "type": "text",
+          //               "text": ": "
+          //             },
+          //             {
+          //               "type": "user",
+          //               "user_id": "U077JS1FCNS"
+          //             }
+          //           ]
+          //         },
+          //         {
+          //           "type": "rich_text_section",
+          //           "elements": [
+          //             {
+          //               "type": "text",
+          //               "style": {
+          //                 "bold": true
+          //               },
+          //               "text": "리뷰어"
+          //             },
+          //             {
+          //               "type": "text",
+          //               "text": ": "
+          //             },
+          //             {
+          //               "type": "user",
+          //               "user_id": "U077JS1FCNS"
+          //             },
+          //             {
+          //               "type": "text",
+          //               "text": ", "
+          //             },
+          //             {
+          //               "type": "user",
+          //               "user_id": "U0791SUM0N4"
+          //             },
+          //             {
+          //               "type": "text",
+          //               "text": ", "
+          //             },
+          //             {
+          //               "type": "user",
+          //               "user_id": "U078KT65J1H"
+          //             }
+          //           ]
+          //         }
+          //       ]
+          //     }]});
+
+            // 메세지를 보낼 대상 = pr 주인
+
+            const channelId = slackUserInfo[context.payload.issue.user.login].directMessageId;
+            sendSlackMessage({blocks, channelId})
       } 
-      // else if (context.payload.action === 'edited') {
-      //   type += '수정'
-      // } 
-
-      const commentUser = context.payload.comment.user.login;
-      message = `${commentUser}님이 댓글을 남겼습니다 확인해보세요!`;
-      prTitle = context.payload.issue.title;
-      body = context.payload.comment.body;
-      link = context.payload.comment.html_url
-
-      blocks.push({
-        "type": "context",
-        "elements": [
-          {
-            "type": "image",
-            "image_url": `${context.payload.comment.user.avatar_url}`,
-            "alt_text": `${commentUser}`
-          },
-          {
-            "type": "mrkdwn",
-            "text": `*${commentUser}* 님이 댓글을 남겼습니다!`
-          }
-        ]
-      },);
-      blocks.push(
-        {
-          "type": "section",
-          "text": {
-            "type": "mrkdwn",
-            "text": `<${link}|확인하러가기>`
-          }
-        }
-      )
-
-      /*
-      댓글을 남긴 사람의 정보
-      context.payload.comment.user
-
-      메세지 전송 대상
-      context.payload.issue.user.login
-      */
-
       // context.payload.issue 에서 pr 정보 추출
     } else if (context.eventName === 'pull_request'){
-      type = '리뷰어'
       if(context.payload.action === 'review_requested') {
-        type += '할당'
-      } 
 
-
-
-      /*
+        /*
       리뷰어로 등록된 사람
       context.payload.comment.user
 
@@ -86,6 +162,23 @@ function getReviewerInfo() {
       login 값에 접근해서 각 사용자에게 알림으로 날린다.
       */
 
+      blocks.push(		{
+        "type": "section",
+        "fields": [
+          {
+            "type": "mrkdwn",
+            "text": "💬 *리뷰어로 할당되었어요!*"
+          }
+        ]
+      })
+    } 
+
+      const reviewers = github.context.payload.pull_request.requested_reviewers;
+      reviewers.forEach((reviewer) => {
+        const channelId = slackUserInfo[reviewer].directMessageId;
+
+        sendSlackMessage({blocks, channelId})
+      })
 
       console.log('context.payload.pull_request', context.payload.pull_request);
       // blocks.push({
@@ -138,10 +231,23 @@ function getReviewerInfo() {
       if(context.payload.action === 'submitted') {
         type += '추가'
         body = context.payload.review.body
+        
+        const channelId = slackUserInfo[context.payload.pull_request.user.login].directMessageId;
+        blocks.push({
+          "type": "section",
+          "fields": [
+            {
+              "type": "mrkdwn",
+              "text": "💬 *새로운 리뷰가 등록되었어요!*"
+            }
+          ]
+        })
       } 
 
-      const commentUser = context.payload.review.user.login;
-      message = `${commentUser}님이 코드리뷰를 남겼습니다 확인해보세요!`;
+      sendSlackMessage({blocks, channelId})
+
+      // const commentUser = context.payload.review.user.login;
+      // message = `${commentUser}님이 코드리뷰를 남겼습니다 확인해보세요!`;
       
       // else if (context.payload.action === 'created') {
       //   type += '수정'
@@ -156,49 +262,6 @@ function getReviewerInfo() {
     // console.log('########## context.payload.pull_request: ', context.payload['pull_request']);
 
     const messageId = slackUserInfo['KiimDoHyun'];
-    fetch(`https://slack.com/api/chat.postMessage`, {
-      method: "POST",
-          headers: {
-              'Content-Type': 'application/json; charset=utf-8',
-              Authorization: `Bearer ${accessToken}` // 헤더에 Bearer 토큰 추가
-            },
-            body: JSON.stringify({
-              channel: messageId,
-              blocks: blocks,
-              text: '',
-              "unfurl_links": false
-              // text: 
-              //   `트리거된 액션 정보\n` +
-              //   `${type}\n` +
-              //   `${context.eventName}\n` +
-              //   `${context.payload.action}\n`  +
-              //   `--------------------------------------\n` +
-              //   `보낸사람 (발생시킨 사람)\n` +
-              //   `${context.actor}\n` +
-              //   `--------------------------------------\n` +
-              //   `PR 제목\n` +
-              //   `${prTitle}\n` +
-              //   `--------------------------------------\n` +
-              //   `PR 알림 내용??\n` +
-              //   `${message}\n`
-              //   `${body}\n` +
-              //   `--------------------------------------\n` + 
-              //   `링크\n` +
-              //   `${link}\n`
-                // `PR 주인` +
-                // `${context.issue.}`
-                // `PR 라벨` +
-                // `${context.payload.sender.login}`
-                // `--------------------------------------\n` +
-                // `이슈 주소\n` +
-                // 항상 존재하는건 아님
-                // `${context.payload.issue.html_url}`
-            })
-    }).then(async(res) => {
-      const response = await res.json()
-      console.log('res', response)}).catch((e) => {
-      console.log('실패', e)
-    })
 
     // reviewers.forEach((reviewer) => {
     //   const messageId = slackUserInfo['KiimDoHyun'];
@@ -295,3 +358,97 @@ function getReviewerInfo() {
   
   getReviewerInfo();
   
+
+  /*
+  [
+		{
+			"type": "section",
+			"fields": [
+				{
+					"type": "mrkdwn",
+					"text": "💬 *리뷰어로 할당되었어요!*"
+				}
+			]
+		},
+		{
+			"type": "divider"
+		},
+		{
+			"type": "rich_text",
+			"elements": [
+				{
+					"type": "rich_text_list",
+					"style": "bullet",
+					"elements": [
+						{
+							"type": "rich_text_section",
+							"elements": [
+								{
+									"type": "link",
+									"url": "https://github.com/whatap/whatap-front/pull/1920",
+									"text": "#1920 feat: 조직 리스트에 아이콘 추가"
+								}
+							]
+						},
+						{
+							"type": "rich_text_section",
+							"elements": [
+								{
+									"type": "text",
+									"style": {
+										"bold": true
+									},
+									"text": "담당자"
+								},
+								{
+									"type": "text",
+									"text": ": "
+								},
+								{
+									"type": "user",
+									"user_id": "U077JS1FCNS"
+								}
+							]
+						},
+						{
+							"type": "rich_text_section",
+							"elements": [
+								{
+									"type": "text",
+									"style": {
+										"bold": true
+									},
+									"text": "리뷰어"
+								},
+								{
+									"type": "text",
+									"text": ": "
+								},
+								{
+									"type": "user",
+									"user_id": "U077JS1FCNS"
+								},
+								{
+									"type": "text",
+									"text": ", "
+								},
+								{
+									"type": "user",
+									"user_id": "U0791SUM0N4"
+								},
+								{
+									"type": "text",
+									"text": ", "
+								},
+								{
+									"type": "user",
+									"user_id": "U078KT65J1H"
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	]
+  */
