@@ -37,6 +37,7 @@ function getReviewerInfo() {
     let message = '';
     let blocks = [];
     let channelId = '';
+    let userId = '';
 
     if(context.eventName === 'issue_comment') {
       if(context.payload.action === 'created') {
@@ -240,6 +241,8 @@ function getReviewerInfo() {
         console.log('########## context.payload.review: ', context.payload.review);
         
         channelId = slackUserInfo[context.payload.pull_request.user.login].directMessageId;
+        userId = slackUserInfo[context.payload.pull_request.user.login].userId;
+
         blocks.push({
           "type": "section",
           "fields": [
@@ -252,47 +255,47 @@ function getReviewerInfo() {
         blocks.push({
           "type": "divider"
         });
-        // blocks.push({
-        //   "type": "rich_text",
-        //   "elements": [
-        //     {
-        //       "type": "rich_text_section",
-        //       "elements": [
-        //         {
-        //           "type": "link",
-        //           "url": `${context.payload.review.html_url}`,
-        //           "text": "#1920 feat: 조직 리스트에 아이콘 추가"
-        //         }
-        //       ]
-        //     },
-        //     {
-        //       "type": "rich_text_section",
-        //       "elements": [
-        //         {
-        //           "type": "text",
-        //           "text": "\n"
-        //         },
-        //         {
-        //           "type": "user",
-        //           "user_id": "U077JS1FCNS"
-        //         },
-        //         {
-        //           "type": "text",
-        //           "text": " 🗣️ "
-        //         }
-        //       ]
-        //     },
-        //     {
-        //       "type": "rich_text_preformatted",
-        //       "elements": [
-        //         {
-        //           "type": "text",
-        //           "text": "고생하셨습니다~!3시간 미만은 5초 raw 데이터, 3시간 이상 조회는 5분 통계 데이터를 사용하는 차이가 있는 것 같네요근데 지표명이 다른 점은 백엔드에 공유가 필요할 것 같군용...는 공유를 해주셨네요....."
-        //         }
-        //       ]
-        //     }
-        //   ]
-        // })
+        blocks.push({
+          "type": "rich_text",
+          "elements": [
+            {
+              "type": "rich_text_section",
+              "elements": [
+                {
+                  "type": "link",
+                  "url": `${context.payload.review.html_url.replace('https://', '')}`,
+                  "text": `${context.payload.pull_request.title}`
+                }
+              ]
+            },
+            {
+              "type": "rich_text_section",
+              "elements": [
+                {
+                  "type": "text",
+                  "text": "\n"
+                },
+                {
+                  "type": "user",
+                  "user_id": `${userId}`,
+                },
+                {
+                  "type": "text",
+                  "text": " 🗣️ "
+                }
+              ]
+            },
+            {
+              "type": "rich_text_preformatted",
+              "elements": [
+                {
+                  "type": "text",
+                  "text": `${context.payload.review.body}`,
+                }
+              ]
+            }
+          ]
+        })
         sendSlackMessage({blocks, channelId});
       } 
 
