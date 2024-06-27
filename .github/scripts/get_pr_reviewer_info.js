@@ -78,7 +78,7 @@ function getReviewerInfo() {
           fields: [
             {
               type: 'mrkdwn',
-              text: '💬 *새로운 댓글이 등록되었어요!*' + `${context.payload.comment.user.login}님이 남김`,
+              text: '💬 *새로운 댓글이 등록되었어요!*',
             },
           ],
         });
@@ -93,7 +93,7 @@ function getReviewerInfo() {
               elements: [
                 {
                   type: 'link',
-                  url: `${context.payload.comment.html_url.replace('https://', '')}`,
+                  url: `${context.payload.comment.html_url}`,
                   text: `#${context.payload.issue.number} ${context.payload.issue.title}`,
                 },
               ],
@@ -263,7 +263,7 @@ function getReviewerInfo() {
               elements: [
                 {
                   type: 'link',
-                  url: `${context.payload.review.html_url.replace('https://', '')}`,
+                  url: `${context.payload.review.html_url}`,
                   text: `${context.payload.pull_request.title}`,
                 },
               ],
