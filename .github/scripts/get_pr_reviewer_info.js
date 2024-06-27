@@ -175,7 +175,8 @@ function getReviewerInfo() {
 
       const reviewers = github.context.payload.pull_request.requested_reviewers;
       reviewers.forEach((reviewer) => {
-        const channelId = slackUserInfo[reviewer].directMessageId;
+        console.log('########## reviewer: ', reviewer);
+        // const channelId = slackUserInfo[reviewer].directMessageId;
 
         sendSlackMessage({blocks, channelId})
       })
@@ -231,6 +232,8 @@ function getReviewerInfo() {
       if(context.payload.action === 'submitted') {
         type += '추가'
         body = context.payload.review.body
+
+        console.log('########## context.payload.pull_request.user: ', context.payload.pull_request.user);
         
         const channelId = slackUserInfo[context.payload.pull_request.user.login].directMessageId;
         blocks.push({
@@ -244,7 +247,7 @@ function getReviewerInfo() {
         })
       } 
 
-      sendSlackMessage({blocks, channelId})
+      // sendSlackMessage({blocks, channelId})
 
       // const commentUser = context.payload.review.user.login;
       // message = `${commentUser}님이 코드리뷰를 남겼습니다 확인해보세요!`;
