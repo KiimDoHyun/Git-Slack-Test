@@ -240,7 +240,7 @@ function getReviewerInfo() {
           return;
         }
 
-        console.log('########## context.payloa: ', context.payloa);
+        console.log('########## context.payload: ', context.payload);
         // console.log('########## context.payload.review: ', context.payload.review);
         // console.log('########## prOwner: ', prOwner);
         // console.log('########## reviewr: ', reviewr);
