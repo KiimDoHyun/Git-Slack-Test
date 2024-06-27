@@ -156,32 +156,17 @@ function getReviewerInfo() {
         // console.log('########## github.context.payload: ', github.context.payload);
         console.log('########## github.context.payload.pull_request: ', github.context.payload.pull_request);
 
-        /*
-      리뷰어로 등록된 사람
-      context.payload.comment.user
-
-      메세지 전송 대상(리뷰어로 등록된 사람과 동일함)
-      context.payload.comment.user.login
-
-      github.context.payload.pull_request.requested_reviewers
-      에 배열로 정보가 들어있음
-      login 값에 접근해서 각 사용자에게 알림으로 날린다.
-      */
       const reviewers = github.context.payload.pull_request.requested_reviewers;
 
       if(reviewers.length === 0) return;
 
       const assignees = github.context.payload.pull_request.assignees;
 
-      console.log('########## assignees: ', assignees);
       const assigneeIds = assignees.filter((assignee) => {
-        console.log('########## slackUserInfo[assignee]: ', slackUserInfo[assignee]);
-        if(slackUserInfo[assignee]) return true;
+        if(slackUserInfo[assignee.login]) return true;
         return false;
-      }).map((assignee) => slackUserInfo[assignee].userId);
+      }).map((assignee) => slackUserInfo[assignee.login].userId);
       
-      console.log('########## assigneeIds: ', assigneeIds);
-
       const bodyElements = [
         {
           "type": "text",
