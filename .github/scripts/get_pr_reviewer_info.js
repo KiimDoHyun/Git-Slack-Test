@@ -59,7 +59,7 @@ function getReviewerInfo() {
             "fields": [
               {
                 "type": "mrkdwn",
-                "text": "💬 *새로운 댓글이 등록되었어요!*"
+                "text": "💬 *새로운 댓글이 등록되었어요!*" + `${context.payload.comment.user.login}님이 남김`
               }
             ]
           })
