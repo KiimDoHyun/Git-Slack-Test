@@ -221,14 +221,14 @@ function getReviewerInfo() {
       if (context.payload.action === 'submitted') {
         body = context.payload.review.body;
 
-        // console.log('########## context.payload.pull_request: ', context.payload.pull_request);
-        // console.log('########## context.payload.review: ', context.payload.review);
+        console.log('########## context.payload.pull_request: ', context.payload.pull_request);
+        console.log('########## context.payload.review: ', context.payload.review);
 
         // todo: body 가 null 로 잡히는 중
         // todo: assignees 로 변경
         const reviewr = context.payload.review.user.login;
         const prOwner = context.payload.pull_request.user.login;
-        if (reviewr === prOwner) return;
+        // if (reviewr === prOwner) return;
 
         if(!slackUserInfo[prOwner]) {
           console.log(`[리뷰 등록 단계 메세지 전송 실패] ${prOwner}의 정보가 없습니다.`);
@@ -240,10 +240,6 @@ function getReviewerInfo() {
           return;
         }
 
-        console.log('########## context.payload: ', context.payload);
-        // console.log('########## context.payload.review: ', context.payload.review);
-        // console.log('########## prOwner: ', prOwner);
-        // console.log('########## reviewr: ', reviewr);
         channelId = slackUserInfo[prOwner].directMessageId;
         userId = slackUserInfo[reviewr].userId;
 
