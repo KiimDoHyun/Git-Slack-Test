@@ -77,8 +77,8 @@ const createMessageBlock = ({ titleText, prUrl, prTitle, labels }) => {
       {
         type: 'mrkdwn',
         text: 
-          `●  **PR 제목:**  <${prUrl}|${prTitle}>\n` +
-          `●  **라벨:**  ${labelText}` 
+          `●  *PR 제목:*  <${prUrl}|${prTitle}>\n` +
+          `●  *라벨:*  ${labelText}` 
       },
     ],
   });
