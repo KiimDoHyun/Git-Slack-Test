@@ -276,9 +276,15 @@ function getReviewerInfo() {
     } else if (context.eventName === 'pull_request_review') {
       if (context.payload.action === 'submitted') {
         body = context.payload.review.body;
+        let text = '';
 
+        if (context.payload.review.state === 'approved') {
+          text = '📢 *PR이 Approved 되었어요!*'
+        } else {
+          text= '💬 *새로운 리뷰가 등록되었어요!*',
+        }
 
-
+        console.log('########## context.payload.review: ', context.payload.review);
         console.log('########## context.payload.review.state: ', context.payload.review.state);
         // console.log('########## context.payload.pull_request: ', context.payload.pull_request);
         // console.log('########## context.payload.review: ', context.payload.review);
@@ -307,7 +313,7 @@ function getReviewerInfo() {
           fields: [
             {
               type: 'mrkdwn',
-              text: '💬 *새로운 리뷰가 등록되었어요!*',
+              text: text,
             },
           ],
         });
