@@ -53,12 +53,10 @@ function getReviewerInfo() {
     let channelId = '';
     let userId = '';
 
-    if(context.eventName === 'pull_request_review_comment') {
-      console.log('########## pull_request_review_comment: ');
-      console.log('########## context: ', context);
-    }
+
 
     if (context.eventName === 'issue_comment') {
+      console.log('issue_comment')
       if (context.payload.action === 'created') {
         // const commentUser = context.payload.comment.user.login;
         // message = `${commentUser}님이 댓글을 남겼습니다 확인해보세요!`;
