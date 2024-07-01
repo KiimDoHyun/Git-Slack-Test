@@ -361,7 +361,8 @@ function getReviewerInfo() {
             },
           ],
         });
-
+        
+        console.log('########## context.payload.pull_request_review: ', context.payload.pull_request_review);
         console.log('########## context.payload.review.html_url: ', context.payload.review.html_url);
         console.log('########## context.payload.pull_request.title: ', context.payload.pull_request.title);
         console.log('########## context.payload.pull_request.number: ', context.payload.pull_request.number);
