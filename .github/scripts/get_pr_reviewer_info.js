@@ -77,48 +77,11 @@ const createMessageBlock = ({ titleText, prUrl, prTitle, labels }) => {
       {
         type: 'mrkdwn',
         text: 
-          `●  PR 제목: <${prUrl}|${prTitle}>\n` +
-          `●  라벨: ${labelText}` 
+          `●  **PR 제목:**  <${prUrl}|${prTitle}>\n` +
+          `●  **라벨:**  ${labelText}` 
       },
     ],
   });
-  // blocks.push({
-  //   type: 'rich_text',
-  //   elements: [
-  //     {
-  //       type: "rich_text_list",
-  //       style: "bullet",
-  //       elements: [
-  //         {
-  //           type: 'rich_text_section',
-  //           elements: [
-  //             {
-  //               type: "text",
-  //               style: {
-  //                 bold: true
-  //               },
-  //               text: "PR 제목"
-  //             },
-  //             {
-  //               type: "text",
-  //               text: ": "
-  //             },
-  //             {
-  //               type: 'link',
-  //               url: prUrl,
-  //               text: prTitle,
-  //             },
-  //           ],
-  //         },
-  //         {
-  //           type: 'rich_text_section',
-  //           elements: labelBlocks
-  //         },
-  //       ],
-  //     }
-  //   ],
-  // });
-
   return blocks;
 };
 
