@@ -152,7 +152,6 @@ function getReviewerInfo() {
 
     if (context.eventName === 'issue_comment') {
       if (context.payload.action === 'created') {
-        console.log('########## context.payload.issue: ', context.payload.issue);
         const commentUser = context.payload.comment.user.login;
         const prOwner = context.payload.issue.user.login;
 
@@ -181,7 +180,6 @@ function getReviewerInfo() {
     } else if (context.eventName === 'pull_request') {
       if (context.payload.action === 'review_requested') {
         const reviewers = github.context.payload.pull_request.requested_reviewers;
-        console.log('########## github.context.payload.pull_request: ', github.context.payload.pull_request);
 
         if (reviewers.length === 0) return;
 
