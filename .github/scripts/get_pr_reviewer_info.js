@@ -93,7 +93,7 @@ const createMessageBlock = ({ titleText, prUrl, prTitle, labels }) => {
       if(index < labelsLen - 1) {
         labelBlocks.push({
           type: "text",
-          text: ', '
+          text: ',   '
         });
       }
     })
