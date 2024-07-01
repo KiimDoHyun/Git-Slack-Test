@@ -284,8 +284,9 @@ function getReviewerInfo() {
           text= '💬 *새로운 리뷰가 등록되었어요!*';
         }
 
-        console.log('########## context.payload.review: ', context.payload.review);
-        console.log('########## context.payload.review.state: ', context.payload.review.state);
+        console.log('########## context.payload.review: ', context);
+        // console.log('########## context.payload.review: ', context.payload.review);
+        // console.log('########## context.payload.review.state: ', context.payload.review.state);
         // console.log('########## context.payload.pull_request: ', context.payload.pull_request);
         // console.log('########## context.payload.review: ', context.payload.review);
 
@@ -362,12 +363,12 @@ function getReviewerInfo() {
           ],
         });
         
-        console.log('########## context.payload.pull_request_review: ', context.payload.pull_request_review);
-        console.log('########## context.payload.review.html_url: ', context.payload.review.html_url);
-        console.log('########## context.payload.pull_request.title: ', context.payload.pull_request.title);
-        console.log('########## context.payload.pull_request.number: ', context.payload.pull_request.number);
-        console.log('########## context.payload.review.body: ', context.payload.review.body);
-        console.log('########## blocks: ', blocks);
+        // console.log('########## context.payload.pull_request_review: ', context.payload.pull_request_review);
+        // console.log('########## context.payload.review.html_url: ', context.payload.review.html_url);
+        // console.log('########## context.payload.pull_request.title: ', context.payload.pull_request.title);
+        // console.log('########## context.payload.pull_request.number: ', context.payload.pull_request.number);
+        // console.log('########## context.payload.review.body: ', context.payload.review.body);
+        // console.log('########## blocks: ', blocks);
         sendSlackMessage({ blocks, channelId });
       }
     }
