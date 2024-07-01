@@ -281,7 +281,7 @@ function getReviewerInfo() {
         if (context.payload.review.state === 'approved') {
           text = '📢 *PR이 Approved 되었어요!*'
         } else {
-          text= '💬 *새로운 리뷰가 등록되었어요!*',
+          text= '💬 *새로운 리뷰가 등록되었어요!*';
         }
 
         console.log('########## context.payload.review: ', context.payload.review);
