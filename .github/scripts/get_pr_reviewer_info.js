@@ -4,6 +4,18 @@ require('dotenv').config();
 
 const slackUserInfo = require('../json/slackUserInfo.json');
 
+/*
+interface labels {
+  color: string;
+  default: boolean;
+  description: string;
+  id: number;
+  name: string;
+  node_id: string;
+  url: string;
+}
+*/
+
 const sendSlackMessage = ({ blocks, channelId, text = '' }) => {
   const accessToken = process.env.SLACK_API_TOKEN; // Bearer 토큰
   fetch(`https://slack.com/api/chat.postMessage`, {
@@ -29,8 +41,36 @@ const sendSlackMessage = ({ blocks, channelId, text = '' }) => {
     });
 };
 
-const createMessageBlock = ({ titleText, prUrl, prTitle, label }) => {
+const createMessageBlock = ({ titleText, prUrl, prTitle, labels }) => {
   const blocks = [];
+  const labelBlocks = [{
+    type: "text",
+    style: {
+      bold: true
+    },
+    text: "라벨"
+  },
+  {
+    type: "text",
+    text: ": "
+  }];
+
+  const labelsLen = labels.length;
+
+  if(labelsLen === 0) {
+    labelBlocks.push({
+      type: "text",
+      text: "라벨 없음"
+    })
+  } else {
+    labels.forEach((label, index) => {
+      labelBlocks.push({
+        type: "mrkdwn",
+        text: `<span style="background-color: #${label.color}; margin-right: 4px">${label.name}</span>`
+      })
+    })
+  }
+
   blocks.push({
     type: 'section',
     fields: [
@@ -72,27 +112,27 @@ const createMessageBlock = ({ titleText, prUrl, prTitle, label }) => {
             ],
           },
           // label
-          // {
-          //   type: 'rich_text_section',
-          //   elements: [
-          //     {
-          //       type: "text",
-          //       style: {
-          //         bold: true
-          //       },
-          //       text: "라벨"
-          //     },
-          //     {
-          //       type: "text",
-          //       text: ": "
-          //     },
-          //     {
-          //       type: 'link',
-          //       url: prUrl,
-          //       text: prTitle,
-          //     },
-          //   ],
-          // },
+          {
+            type: 'rich_text_section',
+            elements: [
+              {
+                type: "text",
+                style: {
+                  bold: true
+                },
+                text: "라벨"
+              },
+              {
+                type: "text",
+                text: ": "
+              },
+              {
+                type: 'link',
+                url: prUrl,
+                text: prTitle,
+              },
+            ],
+          },
         ],
       }
 
@@ -132,6 +172,7 @@ function getReviewerInfo() {
           titleText: '💬 *새로운 댓글이 등록되었어요!*',
           prUrl: context.payload.comment.html_url,
           prTitle: `#${context.payload.issue.number} ${context.payload.issue.title}`,
+          labels: github.context.payload.issue.labels,
         });
 
         channelId = slackUserInfo[prOwner].directMessageId;
@@ -148,6 +189,7 @@ function getReviewerInfo() {
           titleText: '💬 *리뷰어로 할당되었어요!*',
           prUrl: context.payload.pull_request.html_url,
           prTitle: `#${context.payload.pull_request.number} ${context.payload.pull_request.title}`,
+          labels: github.context.payload.pull_request.labels,
         });
         reviewers.forEach((reviewer) => {
           const reviewerInfo = slackUserInfo[reviewer.login];
@@ -181,6 +223,7 @@ function getReviewerInfo() {
             titleText: titleText,
             prUrl: context.payload.pull_request.html_url,
             prTitle: `#${context.payload.pull_request.number} ${context.payload.pull_request.title}`,
+            labels: github.context.payload.pull_request.labels,
           });
 
           const channelId = reviewerInfo.directMessageId;
@@ -199,6 +242,7 @@ function getReviewerInfo() {
           titleText: titleText,
           prUrl: context.payload.review.html_url,
           prTitle: `#${context.payload.pull_request.number} ${context.payload.pull_request.title}`,
+          labels: github.context.payload.pull_request.labels,
         });
 
         const reviewr = context.payload.review.user.login;
