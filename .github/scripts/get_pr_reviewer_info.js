@@ -96,7 +96,7 @@ const createMessageBlock = ({ titleText, prUrl, prTitle, labels }) => {
     fields: [
       {
         type: 'mrkdwn',
-        text: `● PR 제목: <${prUrl}|${prTitle}>`,
+        text: `●  PR 제목: <${prUrl}|${prTitle}>`,
       },
     ],
   });
@@ -105,16 +105,8 @@ const createMessageBlock = ({ titleText, prUrl, prTitle, labels }) => {
     fields: [
       {
         type: 'mrkdwn',
-        text: `● PR 제목: <${prUrl}|${prTitle}>`,
-      },
-    ],
-  });
-  blocks.push({
-    type: 'section',
-    fields: [
-      {
-        type: 'mrkdwn',
-        text: `● 테스트 필트 <span style="background-color: #FF0000;">테스트 입력 값</span>`,
+        text: `●  ``테스트 필드```,
+        
       },
     ],
   });
