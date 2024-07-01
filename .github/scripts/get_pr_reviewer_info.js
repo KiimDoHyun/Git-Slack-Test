@@ -53,6 +53,11 @@ function getReviewerInfo() {
     let channelId = '';
     let userId = '';
 
+    if(context.eventName === 'pull_request_review_comment') {
+      console.log('########## pull_request_review_comment: ');
+      console.log('########## context: ', context);
+    }
+
     if (context.eventName === 'issue_comment') {
       if (context.payload.action === 'created') {
         // const commentUser = context.payload.comment.user.login;
