@@ -216,6 +216,9 @@ function getReviewerInfo() {
           const channelId = reviewerInfo.directMessageId;
           sendSlackMessage({ blocks, channelId });
         });
+      } else if(context.payload.action === 'closed') {
+        console.log('########## context.payload.pull_request: ', context.payload.pull_request);
+
       }
     } else if (context.eventName === 'pull_request_review') {
       if (context.payload.action === 'submitted') {
