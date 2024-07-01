@@ -361,6 +361,7 @@ function getReviewerInfo() {
             },
           ],
         });
+        console.log('########## blocks: ', blocks);
         sendSlackMessage({ blocks, channelId });
       }
     }
