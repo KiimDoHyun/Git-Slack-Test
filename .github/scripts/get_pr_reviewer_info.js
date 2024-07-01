@@ -4,6 +4,19 @@ require('dotenv').config();
 
 const slackUserInfo = require('../json/slackUserInfo.json');
 
+const getAssigneesIds = (assignees) => {
+  const assigneeIds = assignees
+    .filter((assignee) => {
+      if (slackUserInfo[assignee.login]) return true;
+
+      console.log(`[리뷰어 정보 찾기 실패] ${assignee.login}의 정보가 없습니다.`);
+      return false;
+    })
+    .map((assignee) => slackUserInfo[assignee.login].userId);
+
+    return assigneeIds;
+}
+
 const sendSlackMessage = ({ blocks, channelId, text = '' }) => {
   const accessToken = process.env.SLACK_API_TOKEN; // Bearer 토큰
   fetch(`https://slack.com/api/chat.postMessage`, {
@@ -137,15 +150,7 @@ function getReviewerInfo() {
         if (reviewers.length === 0) return;
 
         const assignees = github.context.payload.pull_request.assignees;
-
-        const assigneeIds = assignees
-          .filter((assignee) => {
-            if (slackUserInfo[assignee.login]) return true;
-
-            console.log(`[리뷰어 할당 단계 메세지 전송 실패] ${assignee.login}의 정보가 없습니다.`);
-            return false;
-          })
-          .map((assignee) => slackUserInfo[assignee.login].userId);
+        const assigneeIds = getAssigneesIds(assignees)
 
         const bodyElements = [
           {
@@ -217,8 +222,56 @@ function getReviewerInfo() {
           sendSlackMessage({ blocks, channelId });
         });
       } else if(context.payload.action === 'closed') {
-        console.log('########## context.payload.pull_request: ', context.payload.pull_request);
+        const reviewers = github.context.payload.pull_request.requested_reviewers;
 
+        if (reviewers.length === 0) return;
+
+
+        let text = '';
+        reviewers.forEach((reviewer) => {
+          const reviewerInfo = slackUserInfo[reviewer.login];
+          if (!reviewerInfo) {
+            console.log(`[리뷰 머지 알림 메세지 전송 실패] ${reviewer.login}의 정보가 없습니다.`);
+            return;
+          }
+
+          
+          if(context.payload.pull_request.merged) {
+            text = '📢 *PR이 Merged 되었어요!*';
+          } else {
+            text = '📢 *PR이 Closed 되었어요!*';
+          }
+          blocks.push({
+            type: 'section',
+            fields: [
+              {
+                type: 'mrkdwn',
+                text: text,
+              },
+            ],
+          });
+
+          blocks.push({
+            type: 'divider',
+          });
+          blocks.push({
+            type: 'rich_text',
+            elements: [
+              {
+                type: 'rich_text_section',
+                elements: [
+                  {
+                    type: 'link',
+                    url: `${context.payload.pull_request.html_url}`,
+                    text: `#${context.payload.pull_request.number} ${context.payload.pull_request.title}`,
+                  },
+                ],
+              },
+            ],
+          });
+          const channelId = reviewerInfo.directMessageId;
+          sendSlackMessage({ blocks, channelId });
+        });
       }
     } else if (context.eventName === 'pull_request_review') {
       if (context.payload.action === 'submitted') {
