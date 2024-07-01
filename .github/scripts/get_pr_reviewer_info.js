@@ -87,13 +87,13 @@ function getReviewerInfo() {
           return;
         }
 
-        channelId = slackUserInfo[prOwner].directMessageId;
-
         blocks = createMessageBlock({
           titleText: '💬 *새로운 댓글이 등록되었어요!*',
           prUrl: context.payload.comment.html_url,
           prTitle: `#${context.payload.issue.number} ${context.payload.issue.title}`,
         });
+
+        channelId = slackUserInfo[prOwner].directMessageId;
         sendSlackMessage({ blocks, channelId });
       }
     } else if (context.eventName === 'pull_request') {
@@ -107,7 +107,6 @@ function getReviewerInfo() {
           prUrl: context.payload.pull_request.html_url,
           prTitle: `#${context.payload.pull_request.number} ${context.payload.pull_request.title}`,
         });
-
         reviewers.forEach((reviewer) => {
           const reviewerInfo = slackUserInfo[reviewer.login];
           if (!reviewerInfo) {
@@ -141,6 +140,7 @@ function getReviewerInfo() {
             prUrl: context.payload.pull_request.html_url,
             prTitle: `#${context.payload.pull_request.number} ${context.payload.pull_request.title}`,
           });
+
           const channelId = reviewerInfo.directMessageId;
           sendSlackMessage({ blocks, channelId });
         });
