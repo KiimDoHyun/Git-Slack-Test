@@ -277,7 +277,7 @@ function getReviewerInfo() {
       if (context.payload.action === 'submitted') {
         body = context.payload.review.body;
 
-        console.log('########## github.event.review: ', github.event.review);
+        console.log('########## github.event: ', github.event);
         console.log('########## context.payload.pull_request: ', context.payload.pull_request);
         console.log('########## context.payload.review: ', context.payload.review);
 
