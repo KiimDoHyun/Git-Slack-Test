@@ -1,40 +1,68 @@
-name: PR 리뷰어 알림
+name: slack_notice
 
-on:
+on: 
   pull_request:
-    branches: [ main ]
-    types: [ opened ]
-
-# needs: [node@16]
+    types: [review_requested, closed]
+  pull_request_review:
+    types: [submitted]
+  issue_comment:
+    types: [created]
 
 jobs:
-  notify-reviewers:
+  slackNotice:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Get PR reviewer information
-      #   id: get-reviewer-info
-      #   run: node .github/scripts/get-pr-reviewer-info.js
-        uses: actions/github-script@v7
+      - name: Use Node.js
+        uses: actions/setup-node@v3
         with:
-          script: |
-            const script = require(.github/scripts/get-pr-reviewer-info.js)
-            await script({ github, context, core })
-            
-          # token: ${{ secrets.GITHUB_TOKEN }}
+          node-version: 18
 
-      # - name: Get Reviewers List
-      #   id: reviewers
-      #   uses: actions/github-script@v7
-      #   with:
-      #     script: 
-        #   github_token: ${{ secrets.GITHUB_TOKEN }}
-        #   issue_number: ${{ github.event.pull_request.number }}
-        #   reviewers: ${{ steps.reviewers.outputs.reviewers }}
+      - name: Cache node modules
+        uses: actions/cache@v3
+        id: cache
+        with:
+          path: node_modules
+          key: npm-packages-${{ hashFiles('**/package-lock.json') }}
 
-      - name: Notify Reviewers with JS
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3 # docs https://pnpm.io/continuous-integration#github-actions
+        with:
+            version: 9.1.2  # Optional: specify a pnpm version
+  
+      - name: Generate Environment Variables File
+        env:
+          SLACK_API_TOKEN: ${{ secrets.SLACK_API_TOKEN }}
         run: |
-          node .github/scripts/pr_noti.js ${{ steps.reviewers.outputs.reviewers }} ${{ github.event.pull_request.title }} ${{ github.event.pull_request.html_url }}
-        #   node .github/scripts/pr_noti.js ${{ steps.reviewers.outputs.reviewers }} ${{ github.event.pull_request.title }} ${{ github.event.pull_request.html_url }}
+          echo "SLACK_API_TOKEN=$SLACK_API_TOKEN" >> .env
+
+      - name: Install Dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: pnpm install --frozen-lockfile
+
+      - name: Run JavaScript
+        run: | 
+          node .github/scripts/get_pr_reviewer_info.js
+  
+
+
+# >> pull_request 이벤트 목록
+
+# opened: 새로운 풀 리퀘스트가 오픈되었을 때 발생합니다.
+# synchronize: 풀 리퀘스트가 업데이트되었을 때 발생합니다. 이는 브랜치가 업데이트되거나 컴파일이 다시 실행되거나 파일이 변경된 경우를 포함합니다.
+# closed: 풀 리퀘스트가 닫혔을 때 발생합니다.
+# reopened: 닫힌 풀 리퀘스트가 다시 오픈되었을 때 발생합니다.
+# edited: 풀 리퀘스트의 제목이나 설명이 편집되었을 때 발생합니다.
+# review_requested: 풀 리퀘스트에 대한 리뷰가 요청되었을 때 발생합니다.
+# review_request_removed: 풀 리퀘스트에 대한 리뷰 요청이 제거되었을 때 발생합니다.
+# labeled: 풀 리퀘스트에 새로운 레이블이 추가되었을 때 발생합니다.
+# unlabeled: 풀 리퀘스트에서 레이블이 제거되었을 때 발생합니다.
+# assigned: 풀 리퀘스트에 새로운 담당자가 지정되었을 때 발생합니다.
+# unassigned: 풀 리퀘스트에서 담당자가 할당 해제되었을 때 발생합니다.
+# merged: 풀 리퀘스트가 머지되었을 때 발생합니다.
+# pull_request_review: 풀 리퀘스트에 대한 리뷰가 제출되었을 때 발생합니다.
+# status_updated: 풀 리퀘스트의 상태가 업데이트되었을 때 발생합니다.
+# head_ref_deleted: 풀 리퀘스트의 기준 브랜치가 삭제되었을 때 발생합니다.
+# marketplace_purchase: 풀 리퀘스트에서 GitHub Marketplace 앱을 구매했을 때 발생합니다.
