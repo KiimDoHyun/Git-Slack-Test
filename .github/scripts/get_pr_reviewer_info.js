@@ -112,7 +112,7 @@ const createMessageBlock = ({ titleText, prUrl, prTitle, labels }) => {
     type: 'divider',
   });
   blocks.push({
-    type: '●•rich_text',
+    type: 'rich_text',
     elements: [
       {
         type: "rich_text_list",
