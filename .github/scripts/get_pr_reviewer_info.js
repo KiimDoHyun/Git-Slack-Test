@@ -95,7 +95,7 @@ const createMessageBlock = ({ titleText, prUrl, prTitle, labels }) => {
     fields: [
       {
         type: 'mrkdwn',
-        text: ```123123```,
+        text: "`" + 'asdfasdf' + "`",
       },
     ],
   });
