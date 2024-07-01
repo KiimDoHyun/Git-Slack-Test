@@ -277,9 +277,11 @@ function getReviewerInfo() {
       if (context.payload.action === 'submitted') {
         body = context.payload.review.body;
 
-        console.log('########## github: ', github);
-        console.log('########## context.payload.pull_request: ', context.payload.pull_request);
-        console.log('########## context.payload.review: ', context.payload.review);
+
+
+        console.log('########## context.payload.review.state: ', context.payload.review.state);
+        // console.log('########## context.payload.pull_request: ', context.payload.pull_request);
+        // console.log('########## context.payload.review: ', context.payload.review);
 
         // todo: body 가 null 로 잡히는 중
         // todo: assignees 로 변경
