@@ -48,6 +48,12 @@ jobs:
       - name: Install Dependencies
         if: steps.cache.outputs.cache-hit != 'true'
         run: pnpm install --frozen-lockfile
+      
+      - name: Approved
+        if: github.event.review.state == 'APPROVED'
+        run: echo "approved"
+        # run: | 
+        #   node .github/scripts/get_pr_reviewer_info.js 
 
       - name: Run JavaScript script
         run: | 
