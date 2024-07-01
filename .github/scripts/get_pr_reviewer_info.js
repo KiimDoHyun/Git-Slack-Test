@@ -60,7 +60,6 @@ const getLabelIcon = (labelText) => {
 }
 
 const createMessageBlock = ({ titleText, prUrl, prTitle, labels }) => {
-  console.log('########## labels: ', labels);
   const blocks = [];
   const labelBlocks = [{
     type: "text",
