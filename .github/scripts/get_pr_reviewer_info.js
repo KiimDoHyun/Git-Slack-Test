@@ -42,13 +42,49 @@ const sendSlackMessage = ({ blocks, channelId, text = '' }) => {
     });
 };
 
+const createMessageBlock = ({
+  titleText,
+  prUrl,
+  prTitle,
+}) => {
+  const blocks = [];
+  blocks.push({
+    type: 'section',
+    fields: [
+      {
+        type: 'mrkdwn',
+        text: titleText,
+      },
+    ],
+  });
+  blocks.push({
+    type: 'divider',
+  });
+  blocks.push({
+    type: 'rich_text',
+    elements: [
+      {
+        type: 'rich_text_section',
+        elements: [
+          {
+            type: 'link',
+            url: prUrl,
+            text: prTitle,
+          },
+        ],
+      },
+    ],
+  });
+
+  return blocks;
+}
+
 function getReviewerInfo() {
   try {
     const context = github.context;
 
-    const blocks = [];
+    let blocks = [];
     let channelId = '';
-    let userId = '';
 
     if (context.eventName === 'issue_comment') {
       if (context.payload.action === 'created') {
@@ -70,131 +106,25 @@ function getReviewerInfo() {
         userId = slackUserInfo[commentUser].userId;
         channelId = slackUserInfo[prOwner].directMessageId;
 
-        blocks.push({
-          type: 'section',
-          fields: [
-            {
-              type: 'mrkdwn',
-              text: '💬 *새로운 댓글이 등록되었어요!*',
-            },
-          ],
-        });
-        blocks.push({
-          type: 'divider',
-        });
-        blocks.push({
-          type: 'rich_text',
-          elements: [
-            {
-              type: 'rich_text_section',
-              elements: [
-                {
-                  type: 'link',
-                  url: `${context.payload.comment.html_url}`,
-                  text: `#${context.payload.issue.number} ${context.payload.issue.title}`,
-                },
-              ],
-            },
-            {
-              type: 'rich_text_section',
-              elements: [
-                {
-                  type: 'text',
-                  text: '\n',
-                },
-                {
-                  type: 'user',
-                  user_id: userId,
-                },
-                {
-                  type: 'text',
-                  text: ' 🗣️ ',
-                },
-              ],
-            },
-            {
-              type: 'rich_text_preformatted',
-              elements: [
-                {
-                  type: 'text',
-                  text: `${context.payload.comment.body || ERROR_MSG}`,
-                },
-              ],
-            },
-          ],
-        });
-
+        blocks = createMessageBlock({
+          titleText: '💬 *새로운 댓글이 등록되었어요!*',
+          prUrl: context.payload.comment.html_url,
+          prTitle: `#${context.payload.issue.number} ${context.payload.issue.title}`
+        })
         sendSlackMessage({ blocks, channelId });
       }
-      // 리뷰어 할당
     } else if (context.eventName === 'pull_request') {
       if (context.payload.action === 'review_requested') {
         const reviewers = github.context.payload.pull_request.requested_reviewers;
 
         if (reviewers.length === 0) return;
 
-        const assignees = github.context.payload.pull_request.assignees;
-        const assigneeIds = getAssigneesIds(assignees)
+        blocks = createMessageBlock({
+          titleText: '💬 *리뷰어로 할당되었어요!*',
+          prUrl: context.payload.pull_request.html_url,
+          prTitle: `#${context.payload.pull_request.number} ${context.payload.pull_request.title}`
+        })
 
-        const bodyElements = [
-          {
-            type: 'text',
-            style: {
-              bold: true,
-            },
-            text: '담당자',
-          },
-          {
-            type: 'text',
-            text: ': ',
-          },
-        ];
-        const assigneeIdsLastIdx = assigneeIds.length - 1;
-        assigneeIds.forEach((assigneeId, index) => {
-          bodyElements.push({
-            type: 'user',
-            user_id: assigneeId,
-          });
-
-          if (index !== assigneeIdsLastIdx) {
-            bodyElements.push({
-              type: 'text',
-              text: ',',
-            });
-          }
-        });
-
-        blocks.push({
-          type: 'section',
-          fields: [
-            {
-              type: 'mrkdwn',
-              text: '💬 *리뷰어로 할당되었어요!*',
-            },
-          ],
-        });
-        blocks.push({
-          type: 'divider',
-        });
-        blocks.push({
-          type: 'rich_text',
-          elements: [
-            {
-              type: 'rich_text_section',
-              elements: [
-                {
-                  type: 'link',
-                  url: `${context.payload.pull_request.html_url}`,
-                  text: `#${context.payload.pull_request.number} ${context.payload.pull_request.title}`,
-                },
-              ],
-            },
-            {
-              type: 'rich_text_section',
-              elements: bodyElements,
-            },
-          ],
-        });
         reviewers.forEach((reviewer) => {
           const reviewerInfo = slackUserInfo[reviewer.login];
           if (!reviewerInfo) {
@@ -211,7 +141,7 @@ function getReviewerInfo() {
         if (reviewers.length === 0) return;
 
 
-        let text = '';
+        let titleText = '';
         reviewers.forEach((reviewer) => {
           const reviewerInfo = slackUserInfo[reviewer.login];
           if (!reviewerInfo) {
@@ -221,38 +151,16 @@ function getReviewerInfo() {
 
           
           if(context.payload.pull_request.merged) {
-            text = '📢 *PR이 Merged 되었어요!*';
+            titleText = '📢 *PR이 `Merged` 되었어요!*';
           } else {
-            text = '📢 *PR이 Closed 되었어요!*';
+            titleText = '📢 *PR이 `Closed` 되었어요!*';
           }
-          blocks.push({
-            type: 'section',
-            fields: [
-              {
-                type: 'mrkdwn',
-                text: text,
-              },
-            ],
-          });
 
-          blocks.push({
-            type: 'divider',
-          });
-          blocks.push({
-            type: 'rich_text',
-            elements: [
-              {
-                type: 'rich_text_section',
-                elements: [
-                  {
-                    type: 'link',
-                    url: `${context.payload.pull_request.html_url}`,
-                    text: `#${context.payload.pull_request.number} ${context.payload.pull_request.title}`,
-                  },
-                ],
-              },
-            ],
-          });
+          blocks = createMessageBlock({
+            titleText: titleText,
+            prUrl: context.payload.pull_request.html_url,
+            prTitle: `#${context.payload.pull_request.number} ${context.payload.pull_request.title}`
+          })
           const channelId = reviewerInfo.directMessageId;
           sendSlackMessage({ blocks, channelId });
         });
@@ -261,16 +169,20 @@ function getReviewerInfo() {
     else if (context.eventName === 'pull_request_review') {
       if (context.payload.action === 'submitted') {
         body = context.payload.review.body;
-        let text = '';
+        let titleText = '';
 
         if (context.payload.review.state === 'approved') {
-          text = '📢 *PR이 Approved 되었어요!*'
+          titleText = '📢 *PR이 `Approved` 되었어요!*'
         } else {
-          text= '💬 *새로운 리뷰가 등록되었어요!*';
+          titleText= '💬 *새로운 리뷰가 등록되었어요!*';
         }
 
-        // todo: body 가 null 로 잡히는 중
-        // todo: assignees 로 변경
+        blocks = createMessageBlock({
+          titleText: titleText,
+          prUrl: context.payload.review.html_url,
+          prTitle: `#${context.payload.pull_request.number} ${context.payload.pull_request.title}`
+        })
+        
         const reviewr = context.payload.review.user.login;
         const prOwner = context.payload.pull_request.user.login;
         if (reviewr === prOwner) return;
@@ -280,68 +192,7 @@ function getReviewerInfo() {
           return;
         }
 
-        if(!slackUserInfo[reviewr]) {
-          console.log(`[리뷰 등록 단계 메세지 전송 실패] ${reviewr}의 정보가 없습니다.`);
-          return;
-        }
-
         channelId = slackUserInfo[prOwner].directMessageId;
-        userId = slackUserInfo[reviewr].userId;
-
-        blocks.push({
-          type: 'section',
-          fields: [
-            {
-              type: 'mrkdwn',
-              text: text,
-            },
-          ],
-        });
-        blocks.push({
-          type: 'divider',
-        });
-        blocks.push({
-          type: 'rich_text',
-          elements: [
-            {
-              type: 'rich_text_section',
-              elements: [
-                {
-                  type: 'link',
-                  url: `${context.payload.review.html_url}`,
-                  text: `#${context.payload.pull_request.number} ${context.payload.pull_request.title}`,
-                },
-              ],
-            },
-            {
-              type: 'rich_text_section',
-              elements: [
-                {
-                  type: 'text',
-                  text: '\n',
-                },
-                {
-                  type: 'user',
-                  user_id: `${userId}`,
-                },
-                {
-                  type: 'text',
-                  text: ' 🗣️ ',
-                },
-              ],
-            },
-            {
-              type: 'rich_text_preformatted',
-              elements: [
-                {
-                  type: 'text',
-                  text: `${context.payload.review.body || ERROR_MSG}`,
-                },
-              ],
-            },
-          ],
-        });
-        
         sendSlackMessage({ blocks, channelId });
       }
     }
