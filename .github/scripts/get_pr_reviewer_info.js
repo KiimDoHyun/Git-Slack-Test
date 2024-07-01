@@ -43,37 +43,18 @@ const sendSlackMessage = ({ blocks, channelId, text = '' }) => {
 
 const createMessageBlock = ({ titleText, prUrl, prTitle, labels }) => {
   const blocks = [];
-  const labelBlocks = [{
-    type: "text",
-    style: {
-      bold: true
-    },
-    text: "라벨"
-  },
-  {
-    type: "text",
-    text: ": "
-  }];
 
   const labelsLen = labels.length;
+  let labelText = '';
 
   if(labelsLen === 0) {
-    labelBlocks.push({
-      type: "text",
-      text: "라벨 없음"
-    })
+    labelText += "`라벨 없음`";
   } else {
     labels.forEach((label, index) => {
-      labelBlocks.push({
-        type: "text",
-        text: `${label.name}`
-      });
+      labelText += "`" + label.name + "`";
 
       if(index < labelsLen - 1) {
-        labelBlocks.push({
-          type: "text",
-          text: ',   '
-        });
+        labelText += ", ";
       }
     })
   }
@@ -95,7 +76,9 @@ const createMessageBlock = ({ titleText, prUrl, prTitle, labels }) => {
     fields: [
       {
         type: 'mrkdwn',
-        text: "`" + 'asdfasdf' + "`",
+        text: 
+          `●  PR 제목: <${prUrl}|${prTitle}>\n` +
+          `●  라벨: ${labelText}` 
       },
     ],
   });
