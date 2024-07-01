@@ -41,6 +41,24 @@ const sendSlackMessage = ({ blocks, channelId, text = '' }) => {
     });
 };
 
+const getLabelIcon = (labelText) => {
+  switch (labelText) {
+    case 'D-Day':
+    case 'Hotfix':
+    case 'D-Day':
+    case 'D-1':
+      return '🟥'
+    case 'D-2':
+      return '🟧';
+    case 'D-3':
+      return '🟨';
+    case 'Feature':
+      return '🟦';
+    default:
+      return '⬛️';
+  }
+}
+
 const createMessageBlock = ({ titleText, prUrl, prTitle, labels }) => {
   console.log('########## labels: ', labels);
   const blocks = [];
@@ -65,15 +83,17 @@ const createMessageBlock = ({ titleText, prUrl, prTitle, labels }) => {
     })
   } else {
     labels.forEach((label, index) => {
+
       labelBlocks.push({
         type: "text",
-        text: label.name,
+        text: `🟥 ${label.name}`
+        // text: `${getLabelIcon(label.name)} ${label.name}`
       });
 
       if(index < labelsLen - 1) {
         labelBlocks.push({
           type: "text",
-          text: ','
+          text: ', '
         });
       }
     })
@@ -92,61 +112,42 @@ const createMessageBlock = ({ titleText, prUrl, prTitle, labels }) => {
     type: 'divider',
   });
   blocks.push({
-    type: 'section',
-    fields: [
+    type: '●•rich_text',
+    elements: [
       {
-        type: 'mrkdwn',
-        text: `●  PR 제목: <${prUrl}|${prTitle}>`,
-      },
-    ],
-  });
-  blocks.push({
-    type: 'section',
-    fields: [
-      {
-        type: 'mrkdwn',
-        text: `●  ``테스트 필드```,
-        
-      },
-    ],
-  });
-  // blocks.push({
-  //   type: '●•rich_text',
-  //   elements: [
-  //     {
-  //       type: "rich_text_list",
-  //       style: "bullet",
-  //       elements: [
-  //         {
-  //           type: 'rich_text_section',
-  //           elements: [
-  //             {
-  //               type: "text",
-  //               style: {
-  //                 bold: true
-  //               },
-  //               text: "PR 제목"
-  //             },
-  //             {
-  //               type: "text",
-  //               text: ": "
-  //             },
-  //             {
-  //               type: 'link',
-  //               url: prUrl,
-  //               text: prTitle,
-  //             },
-  //           ],
-  //         },
-  //         {
-  //           type: 'rich_text_section',
-  //           elements: labelBlocks
-  //         },
-  //       ],
-  //     }
+        type: "rich_text_list",
+        style: "bullet",
+        elements: [
+          {
+            type: 'rich_text_section',
+            elements: [
+              {
+                type: "text",
+                style: {
+                  bold: true
+                },
+                text: "PR 제목"
+              },
+              {
+                type: "text",
+                text: ": "
+              },
+              {
+                type: 'link',
+                url: prUrl,
+                text: prTitle,
+              },
+            ],
+          },
+          {
+            type: 'rich_text_section',
+            elements: labelBlocks
+          },
+        ],
+      }
 
-  //   ],
-  // });
+    ],
+  });
 
   return blocks;
 };
