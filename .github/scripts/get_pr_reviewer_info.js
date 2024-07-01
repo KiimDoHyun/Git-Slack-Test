@@ -63,10 +63,10 @@ const createMessageBlock = ({ titleText, prUrl, prTitle, labels }) => {
       text: "라벨 없음"
     })
   } else {
-    labels.forEach((label, index) => {
+    labels.forEach((label) => {
       labelBlocks.push({
         type: "mrkdwn",
-        text: `<span style="background-color: #${label.color}; margin-right: 4px">${label.name}</span>`
+        text: `&lt;span style="background-color: #${label.color}; margin-right: 4px"&gt;${label.name}&lt;/span&gt;`
       })
     })
   }
