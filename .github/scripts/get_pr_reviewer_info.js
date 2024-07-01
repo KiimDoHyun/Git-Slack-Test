@@ -82,11 +82,9 @@ const createMessageBlock = ({ titleText, prUrl, prTitle, labels }) => {
     })
   } else {
     labels.forEach((label, index) => {
-
       labelBlocks.push({
         type: "text",
-        text: `🟥 ${label.name}`
-        // text: `${getLabelIcon(label.name)} ${label.name}`
+        text: `${getLabelIcon(label.name)} ${label.name}`
       });
 
       if(index < labelsLen - 1) {
