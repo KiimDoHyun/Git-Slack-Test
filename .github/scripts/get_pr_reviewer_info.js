@@ -92,42 +92,69 @@ const createMessageBlock = ({ titleText, prUrl, prTitle, labels }) => {
     type: 'divider',
   });
   blocks.push({
-    type: 'rich_text',
-    elements: [
+    type: 'section',
+    fields: [
       {
-        type: "rich_text_list",
-        style: "bullet",
-        elements: [
-          {
-            type: 'rich_text_section',
-            elements: [
-              {
-                type: "text",
-                style: {
-                  bold: true
-                },
-                text: "PR 제목"
-              },
-              {
-                type: "text",
-                text: ": "
-              },
-              {
-                type: 'link',
-                url: prUrl,
-                text: prTitle,
-              },
-            ],
-          },
-          {
-            type: 'rich_text_section',
-            elements: labelBlocks
-          },
-        ],
-      }
-
+        type: 'mrkdwn',
+        text: `● PR 제목: <${prUrl}|${prTitle}>`,
+      },
     ],
   });
+  blocks.push({
+    type: 'section',
+    fields: [
+      {
+        type: 'mrkdwn',
+        text: `● PR 제목: <${prUrl}|${prTitle}>`,
+      },
+    ],
+  });
+  blocks.push({
+    type: 'section',
+    fields: [
+      {
+        type: 'mrkdwn',
+        text: `● 테스트 필트 <span style="background-color: #FF0000;">테스트 입력 값</span>`,
+      },
+    ],
+  });
+  // blocks.push({
+  //   type: '●•rich_text',
+  //   elements: [
+  //     {
+  //       type: "rich_text_list",
+  //       style: "bullet",
+  //       elements: [
+  //         {
+  //           type: 'rich_text_section',
+  //           elements: [
+  //             {
+  //               type: "text",
+  //               style: {
+  //                 bold: true
+  //               },
+  //               text: "PR 제목"
+  //             },
+  //             {
+  //               type: "text",
+  //               text: ": "
+  //             },
+  //             {
+  //               type: 'link',
+  //               url: prUrl,
+  //               text: prTitle,
+  //             },
+  //           ],
+  //         },
+  //         {
+  //           type: 'rich_text_section',
+  //           elements: labelBlocks
+  //         },
+  //       ],
+  //     }
+
+  //   ],
+  // });
 
   return blocks;
 };
