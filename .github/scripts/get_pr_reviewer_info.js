@@ -111,27 +111,9 @@ const createMessageBlock = ({ titleText, prUrl, prTitle, labels }) => {
               },
             ],
           },
-          // label
           {
             type: 'rich_text_section',
-            elements: [
-              {
-                type: "text",
-                style: {
-                  bold: true
-                },
-                text: "라벨"
-              },
-              {
-                type: "text",
-                text: ": "
-              },
-              {
-                type: 'link',
-                url: prUrl,
-                text: prTitle,
-              },
-            ],
+            elements: labelBlocks
           },
         ],
       }
