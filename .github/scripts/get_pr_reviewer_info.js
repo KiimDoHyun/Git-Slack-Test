@@ -41,24 +41,6 @@ const sendSlackMessage = ({ blocks, channelId, text = '' }) => {
     });
 };
 
-const getLabelIcon = (labelText) => {
-  switch (labelText) {
-    case 'D-Day':
-    case 'Hotfix':
-    case 'D-Day':
-    case 'D-1':
-      return '🟥'
-    case 'D-2':
-      return '🟧';
-    case 'D-3':
-      return '🟨';
-    case 'Feature':
-      return '🟦';
-    default:
-      return '⬛️';
-  }
-}
-
 const createMessageBlock = ({ titleText, prUrl, prTitle, labels }) => {
   const blocks = [];
   const labelBlocks = [{
@@ -84,7 +66,7 @@ const createMessageBlock = ({ titleText, prUrl, prTitle, labels }) => {
     labels.forEach((label, index) => {
       labelBlocks.push({
         type: "text",
-        text: `${getLabelIcon(label.name)} ${label.name}`
+        text: `${label.name}`
       });
 
       if(index < labelsLen - 1) {
@@ -109,42 +91,50 @@ const createMessageBlock = ({ titleText, prUrl, prTitle, labels }) => {
     type: 'divider',
   });
   blocks.push({
-    type: 'rich_text',
-    elements: [
+    type: 'section',
+    fields: [
       {
-        type: "rich_text_list",
-        style: "bullet",
-        elements: [
-          {
-            type: 'rich_text_section',
-            elements: [
-              {
-                type: "text",
-                style: {
-                  bold: true
-                },
-                text: "PR 제목"
-              },
-              {
-                type: "text",
-                text: ": "
-              },
-              {
-                type: 'link',
-                url: prUrl,
-                text: prTitle,
-              },
-            ],
-          },
-          {
-            type: 'rich_text_section',
-            elements: labelBlocks
-          },
-        ],
-      }
-
+        type: 'mrkdwn',
+        text: ```123123```,
+      },
     ],
   });
+  // blocks.push({
+  //   type: 'rich_text',
+  //   elements: [
+  //     {
+  //       type: "rich_text_list",
+  //       style: "bullet",
+  //       elements: [
+  //         {
+  //           type: 'rich_text_section',
+  //           elements: [
+  //             {
+  //               type: "text",
+  //               style: {
+  //                 bold: true
+  //               },
+  //               text: "PR 제목"
+  //             },
+  //             {
+  //               type: "text",
+  //               text: ": "
+  //             },
+  //             {
+  //               type: 'link',
+  //               url: prUrl,
+  //               text: prTitle,
+  //             },
+  //           ],
+  //         },
+  //         {
+  //           type: 'rich_text_section',
+  //           elements: labelBlocks
+  //         },
+  //       ],
+  //     }
+  //   ],
+  // });
 
   return blocks;
 };
