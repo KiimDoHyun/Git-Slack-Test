@@ -24,7 +24,7 @@ jobs:
         id: read_json
         run: |
           JSON_CONTENT=$(cat .github/json/slackUserInfo.json | jq -c .)
-          echo "{json}={JSON_CONTENT}" >> $GITHUB_OUTPUT
+          echo "$json=$JSON_CONTENT" >> $GITHUB_OUTPUT
           
 # echo "::set-output name=json::$JSON_CONTENT"
       - name: Notify PR Review
