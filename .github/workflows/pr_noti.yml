@@ -24,7 +24,7 @@ jobs:
         id: read_json
         run: |
           JSON_CONTENT=$(cat .github/json/slackUserInfo.json)
-          echo "::set-output name=json::$JSON_CONTENT"
+          echo "{json}={JSON_CONTENT}" >> $GITHUB_OUTPUT
 
       - name: Notify PR Review
         uses: KiimDoHyun/Git-Slack-Noti@main
