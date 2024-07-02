@@ -18,11 +18,14 @@ jobs:
         run: |
           echo "SLACK_API_TOKEN=$SLACK_API_TOKEN" >> .env
 
+
       - name: Notify PR Review
         uses: KiimDoHyun/Git-Slack-Noti@main
         with:
           slackBotToken: ${{ secrets.SLACK_API_TOKEN }}
-          slackUserInfoJson: '.github/json/slackUserInfo.json'
+          slackUserInfoJson: |
+            .github/json/slackUserInfo.json
+          # slackUserInfoJson: '.github/json/slackUserInfo.json'
 
     # steps:
     #   - uses: actions/checkout@v4
