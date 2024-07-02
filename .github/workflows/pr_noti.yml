@@ -18,12 +18,18 @@ jobs:
         run: |
           echo "SLACK_API_TOKEN=$SLACK_API_TOKEN" >> .env
 
+          
+      - name: Read JSON file
+        id: read_json
+        run: |
+          JSON_CONTENT=$(cat .github/json/slackUserInfo.json)
+          echo "::set-output name=json::$JSON_CONTENT"
 
       - name: Notify PR Review
         uses: KiimDoHyun/Git-Slack-Noti@main
         with:
           slackBotToken: ${{ secrets.SLACK_API_TOKEN }}
-          slackUserInfoJson: .github/json/slackUserInfo.json
+          slackUserInfoJson: ${{ steps.read_json.outputs.json }}
           # slackUserInfoJson: ${{ .github/json/slackUserInfo.json }}
           # slackUserInfoJson: |
           #   .github/json/slackUserInfo.json
