@@ -19,7 +19,7 @@ jobs:
           echo "SLACK_API_TOKEN=$SLACK_API_TOKEN" >> .env
 
       - name: Notify PR Review
-        uses: KiimDoHyun/Git-Slack-Noti
+        uses: KiimDoHyun/Git-Slack-Noti@main
         with:
           slackBotToken: ${{ secrets.SLACK_API_TOKEN }}
 
