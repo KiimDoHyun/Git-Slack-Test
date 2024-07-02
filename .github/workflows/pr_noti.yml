@@ -23,7 +23,8 @@ jobs:
         uses: KiimDoHyun/Git-Slack-Noti@main
         with:
           slackBotToken: ${{ secrets.SLACK_API_TOKEN }}
-          slackUserInfoJson: 'slackUserInfoJson'
+          slackUserInfoJson: .github/json/slackUserInfo.json
+          # slackUserInfoJson: ${{ .github/json/slackUserInfo.json }}
           # slackUserInfoJson: |
           #   .github/json/slackUserInfo.json
           # slackUserInfoJson: '.github/json/slackUserInfo.json'
