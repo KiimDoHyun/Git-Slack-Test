@@ -22,6 +22,7 @@ jobs:
     - name: Generate Environment Variables File
       run: |
         echo "SLACK_API_TOKEN=${{ secrets.SLACK_API_TOKEN }}" > .env
+        echo "FRONT_CHANNEL_ID=C078E953L9W" > .env
 
     - name: Run JavaScript
       run: node .github/scripts/get_slack_user_info.js
