@@ -3,6 +3,10 @@ name: Fetch Slack User Info
 on:
   workflow_dispatch: # 사용자가 수동으로 실행할 수 있도록 설정
 
+
+permissions:
+  contents: write # 리포지토리 콘텐츠에 대한 쓰기 권한 부여
+
 jobs:
   fetch-user-info:
     runs-on: ubuntu-latest
