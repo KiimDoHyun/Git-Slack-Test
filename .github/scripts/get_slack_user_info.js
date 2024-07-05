@@ -28,6 +28,7 @@ const userInfoByGithubId = {};
 // 슬랙 API 호출을 위한 기본 설정
 const fetchSlackApi = async (endpoint, options = {}) => {
   const baseUrl = "https://slack.com/api/";
+  console.log('########## SLACK_TOKEN: ', SLACK_TOKEN);
   const defaultHeaders = {
     Authorization: `Bearer ${SLACK_TOKEN}`,
     "Content-Type": "application/json; charset=utf-8",
