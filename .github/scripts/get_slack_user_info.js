@@ -136,7 +136,7 @@ const findSlackUserInfo = async () => {
   console.log(userInfoByGithubId);
   
   // JSON 파일로 저장
-  await saveUserInfoToFile(userInfoByGithubId, '../json/slackUserInfo.json');
+  await saveUserInfoToFile(userInfoByGithubId, '.github/json/slackUserInfo.json');
 };
 
 // 함수 실행
