@@ -2,10 +2,10 @@ const fs = require('fs/promises');
 
 require('dotenv').config();
 
-const FRONT_CHANNEL_ID = process.env.FRONT_CHANNEL_ID || 'C071M97SR42';
 const SLACK_TOKEN = process.env.SLACK_API_TOKEN;
+const FRONT_CHANNEL_ID = process.env.FRONT_CHANNEL_ID || 'C071M97SR42';
 
-// 실제 이름 : 깃허브 아이디 순서
+
 const nameByGithubId = {
   양아름: "areumsheep",
   김도현: "KiimDoHyun",
@@ -117,19 +117,21 @@ const findSlackUserInfo = async () => {
   for (const member of members) {
     const user = await getUserInfo(member);
 
-    const realName =
-      user.real_name || user.profile.real_name || user.profile.display_name;
-    console.log(realName);
-
-    for (const [name, githubId] of Object.entries(nameByGithubId)) {
-      if (realName === name) {
-        const dmId = await openDirectMessage(user.id);
-        console.log(dmId);
-        userInfoByGithubId[githubId] = {
-          userId: user.id,
-          directMessageId: dmId,
-        };
-      }
+    const realNames = [
+      user.real_name,
+      user.profile.real_name,
+      user.profile.display_name
+    ];
+    
+    const matchedName = realNames.find(name => name && nameByGithubId[name]);
+    
+    if (matchedName) {
+      const githubId = nameByGithubId[matchedName];
+      const dmId = await openDirectMessage(user.id);
+      userInfoByGithubId[githubId] = {
+        userId: user.id,
+        directMessageId: dmId,
+      };
     }
   }
   

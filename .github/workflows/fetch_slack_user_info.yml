@@ -23,12 +23,9 @@ jobs:
       env:
         SLACK_API_TOKEN: ${{ secrets.SLACK_API_TOKEN }}
         FRONT_CHANNEL_ID: C078E953L9W
-      # run: |
-      #   echo "SLACK_API_TOKEN=${{ secrets.SLACK_API_TOKEN }}" > .env
-      #   echo "FRONT_CHANNEL_ID=C078E953L9W" > .env
       run: |
-        echo "SLACK_API_TOKEN=$SLACK_API_TOKEN" > .env
-        echo "FRONT_CHANNEL_ID=$FRONT_CHANNEL_ID" > .env
+        echo "SLACK_API_TOKEN=${{ secrets.SLACK_API_TOKEN }}" > .env
+        echo "FRONT_CHANNEL_ID=${{ env.FRONT_CHANNEL_ID }}" >> .env
 
     - name: Run JavaScript
       run: node .github/scripts/get_slack_user_info.js
