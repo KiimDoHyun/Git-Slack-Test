@@ -19,7 +19,9 @@ jobs:
     - name: Install dependencies
       run: npm install
 
-    - name: Run script to fetch Slack user info
+    - name: Generate Environment Variables File
+      run: |
+        echo "SLACK_API_TOKEN=${{ secrets.SLACK_API_TOKEN }}" > .env
+
+    - name: Run JavaScript
       run: node .github/scripts/get_slack_user_info.js
-      env:
-        SLACK_TOKEN: ${{ secrets.SLACK_API_TOKEN }} # Slack 토큰을 GitHub Secrets에 저장한 후 사용
