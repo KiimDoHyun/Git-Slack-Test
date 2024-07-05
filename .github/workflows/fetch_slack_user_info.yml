@@ -29,3 +29,13 @@ jobs:
 
     - name: Run JavaScript
       run: node .github/scripts/get_slack_user_info.js
+
+    - name: Commit and push changes
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        git add json/slackUserInfo.json
+        git commit -m "refactor(slackUserInfo.json): $(date)"
+        git push
+      env:
+        GITHUB_TOKEN: ${{ secrets.AREUM_GITHUB_TOKEN }}
