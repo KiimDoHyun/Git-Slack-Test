@@ -30,9 +30,5 @@ jobs:
         working-directory: ./packages/github-actions-package
 
       - name: Build the action
-        run: pnpm run build
-        working-directory: ./packages/github-actions-package
-
-      - name: Run the action
-        run: node dist/index.js
+        run: pnpm run dev
         working-directory: ./packages/github-actions-package

@@ -23,6 +23,7 @@ function App() {
         </button>
         <p>asdf</p>
         <p>asdfff</p>
+        <p>asdfff</p>
         <p>
           Edit <code>src/App.jsx</code> and save to test HMR
         </p>
