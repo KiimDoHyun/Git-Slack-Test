@@ -20,6 +20,11 @@ jobs:
         with:
           node-version: '16'
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 9.1.2
+
       - name: Install dependencies
         run: pnpm install
         working-directory: ./packages/github-actions-package
@@ -29,6 +34,5 @@ jobs:
         working-directory: ./packages/github-actions-package
 
       - name: Run the action
-        run: |
-          node dist/index.js
+        run: node dist/index.js
         working-directory: ./packages/github-actions-package
