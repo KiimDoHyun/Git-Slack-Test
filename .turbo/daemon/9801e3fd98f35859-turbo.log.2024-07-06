@@ -1,0 +1,46 @@
+2024-07-06T16:17:42.877866Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/.turbo-cookie"), AnchoredSystemPathBuf(".turbo/cookies/1.cookie"), AnchoredSystemPathBuf(".turbo/cache")}
+2024-07-06T16:17:42.877878Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2024-07-06T16:17:57.659069Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("turbo.json")}
+2024-07-06T16:17:57.659087Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(All)
+2024-07-06T16:18:01.356986Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/2.cookie")}
+2024-07-06T16:18:01.356994Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2024-07-06T16:18:15.650725Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("package.json")}
+2024-07-06T16:18:15.650732Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(All)
+2024-07-06T16:27:34.047050Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages"), AnchoredSystemPathBuf("packages/github-actions-package")}
+2024-07-06T16:27:34.047062Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2024-07-06T16:28:26.647949Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/github-actions-package/package.json"), AnchoredSystemPathBuf("packages/github-actions-package/package.json.3512502181")}
+2024-07-06T16:28:26.647960Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2024-07-06T16:28:44.647621Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/first-react-app/public/vite.svg"), AnchoredSystemPathBuf("packages/first-react-app/src/index.css"), AnchoredSystemPathBuf("packages/first-react-app/src/App.css"), AnchoredSystemPathBuf("packages/first-react-app/src/assets/react.svg"), AnchoredSystemPathBuf("packages/first-react-app/vite.config.js"), AnchoredSystemPathBuf("packages/first-react-app"), AnchoredSystemPathBuf("packages/first-react-app/src"), AnchoredSystemPathBuf("packages/first-react-app/src/assets"), AnchoredSystemPathBuf("packages/first-react-app/package.json"), AnchoredSystemPathBuf("packages/first-react-app/README.md"), AnchoredSystemPathBuf("packages/first-react-app/index.html"), AnchoredSystemPathBuf("packages/first-react-app/src/main.jsx"), AnchoredSystemPathBuf("packages/first-react-app/.gitignore"), AnchoredSystemPathBuf("packages/first-react-app/.eslintrc.cjs"), AnchoredSystemPathBuf("packages/first-react-app/src/App.jsx"), AnchoredSystemPathBuf("packages/first-react-app/public")}
+2024-07-06T16:28:44.647632Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2024-07-06T16:29:51.947752Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/first-react-app/_tmp_51963_4a58663b44c936370ce513c6dec111d7"), AnchoredSystemPathBuf("packages/first-react-app")}
+2024-07-06T16:29:51.947762Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2024-07-06T16:29:59.447794Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/first-react-app/node_modules")}
+2024-07-06T16:29:59.447805Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2024-07-06T16:30:01.046952Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/first-react-app/pnpm-lock.yaml"), AnchoredSystemPathBuf("packages/first-react-app/pnpm-lock.yaml.3914522019")}
+2024-07-06T16:30:01.046963Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2024-07-06T16:30:22.247075Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("_tmp_52119_c83e1a80b8c296aec8c70394b8157b76"), AnchoredSystemPathBuf("")}
+2024-07-06T16:30:22.247084Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2024-07-06T16:30:29.447048Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("node_modules")}
+2024-07-06T16:30:29.447057Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2024-07-06T16:31:32.847086Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("package.json")}
+2024-07-06T16:31:32.847094Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(All)
+2024-07-06T16:31:38.947346Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(""), AnchoredSystemPathBuf("_tmp_52247_ed1e0eb68b1fc011c60552034332f129")}
+2024-07-06T16:31:38.947354Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2024-07-06T16:31:39.046992Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("node_modules")}
+2024-07-06T16:31:39.047003Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2024-07-06T16:31:39.146499Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("pnpm-lock.yaml"), AnchoredSystemPathBuf("pnpm-lock.yaml.2572498260")}
+2024-07-06T16:31:39.146509Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2024-07-06T16:31:56.447155Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("package.json")}
+2024-07-06T16:31:56.447172Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(All)
+2024-07-06T16:40:46.447214Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/github-actions-package/action.yml"), AnchoredSystemPathBuf("packages/github-actions-package/.gitignore"), AnchoredSystemPathBuf("packages/github-actions-package/package copy.json"), AnchoredSystemPathBuf("packages/github-actions-package/README.md"), AnchoredSystemPathBuf("packages/github-actions-package/package-lock.json"), AnchoredSystemPathBuf("packages/github-actions-package/index.js")}
+2024-07-06T16:40:46.447224Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2024-07-06T16:40:54.946596Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/github-actions-package/package.json")}
+2024-07-06T16:40:54.946608Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2024-07-06T16:41:09.047372Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/github-actions-package/package copy.json")}
+2024-07-06T16:41:09.047382Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2024-07-06T16:44:13.547315Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".github/workflows/run-github-action-on-first-react-app-change.yml")}
+2024-07-06T16:44:13.547336Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2024-07-06T16:44:17.048813Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".github/workflows/run-github-action-on-first-react-app-change.yml")}
+2024-07-06T16:44:17.048834Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2024-07-06T16:44:52.947423Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".github/workflows/run-github-action-on-first-react-app-change.yml")}
+2024-07-06T16:44:52.947473Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
